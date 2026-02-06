@@ -1,0 +1,18 @@
+/* Layout */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.page {
+  padding: 1.5rem 0 3rem;
+}
+
+.page-header {
+  margin-bottom: 1.2rem;
+}
+
+.muted {
+  color: var(--muted);
+}

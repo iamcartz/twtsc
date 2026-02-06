@@ -42,7 +42,7 @@ export default function Contact() {
       `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
     );
 
-    window.location.href = `mailto:info@togetherwethrive.com.au?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:info@twt.com.au?subject=${subject}&body=${body}`;
 
     // Optional: reset after launching mail client
     form.reset();
@@ -65,8 +65,8 @@ export default function Contact() {
           </p>
           <p>
             Email:{" "}
-            <a href="mailto:info@togetherwethrive.com.au">
-              info@togetherwethrive.com.au
+            <a href="mailto:info@twt.com.au">
+              info@twt.com.au
             </a>
           </p>
           <p className="muted">

@@ -1,0 +1,165 @@
+[
+  {
+    "id": "personal-care",
+    "title": "Personal Care & Daily Living Support",
+    "summary": "Warm, respectful support with personal tasks so you can live safely and comfortably.",
+    "bullets": [
+      "Showering, bathing, grooming and dressing",
+      "Toileting and continence support",
+      "Eating and drinking support",
+      "Moving and positioning assistance",
+      "Medication reminders",
+      "Support at home and in the community"
+    ],
+    "icon": "care",
+    "image": "/images/services/personal-care.jpg",
+    "faqs": [
+      {
+        "q": "Do you support participants with complex needs?",
+        "a": "We can support many needs. If you have higher support requirements, contact us so we can confirm the right staff and approach for safe support."
+      },
+      {
+        "q": "Can supports happen at home or in the community?",
+        "a": "Yes. Supports can be provided at home and/or out in the community depending on your goals and plan."
+      }
+    ]
+  },
+  {
+    "id": "in-home",
+    "title": "In-Home Support & Household Tasks",
+    "summary": "Practical help at home to keep routines running smoothly and your space comfortable.",
+    "bullets": [
+      "Meal preparation and light cooking",
+      "Cleaning, laundry and tidying",
+      "Dishwashing and kitchen assistance",
+      "Basic home organisation",
+      "Support to maintain a safe living environment"
+    ],
+    "icon": "home",
+    "image": "/images/services/in-home.jpg",
+    "faqs": [
+      {
+        "q": "What household tasks can you help with?",
+        "a": "We can assist with common daily household tasks like meals, cleaning, laundry, and keeping your home safe and organised."
+      },
+      {
+        "q": "Do you provide deep cleaning?",
+        "a": "We focus on everyday household support. If you need specialist cleaning, we can discuss what’s possible and what may need an external provider."
+      }
+    ]
+  },
+  {
+    "id": "community",
+    "title": "Social & Community Participation",
+    "summary": "Support to get out and about, enjoy activities, and build confidence in the community.",
+    "bullets": [
+      "Attending community events",
+      "Social outings and hobbies",
+      "Visiting friends and family",
+      "Recreational activities",
+      "Building social skills and confidence"
+    ],
+    "icon": "people",
+    "image": "/images/services/community.jpg",
+    "faqs": [
+      {
+        "q": "Can I choose the activities?",
+        "a": "Yes. We plan activities around your interests and goals, and we keep communication clear and simple."
+      },
+      {
+        "q": "Do you support people with anxiety in the community?",
+        "a": "Yes. We go at your pace and can start with shorter outings, gradually building confidence."
+      }
+    ]
+  },
+  {
+    "id": "transport",
+    "title": "Transport Support",
+    "summary": "Safe transport assistance so you can get to appointments, activities, and daily errands.",
+    "bullets": [
+      "Appointments and shopping",
+      "Community and social activities",
+      "School, training or programs",
+      "Support using public transport"
+    ],
+    "icon": "car",
+    "image": "/images/services/transport.jpg",
+    "faqs": [
+      {
+        "q": "Do you provide transport and support together?",
+        "a": "Yes. We can provide transport and stay with you for the activity or appointment if that’s what you need."
+      },
+      {
+        "q": "Can you support public transport training?",
+        "a": "Yes. We can help you build skills and confidence using buses, trains, and other transport options."
+      }
+    ]
+  },
+  {
+    "id": "skills",
+    "title": "Capacity Building & Life Skills",
+    "summary": "Support to build independence with everyday skills—at your pace, in a way that works for you.",
+    "bullets": [
+      "Cooking and meal planning",
+      "Budgeting and money skills",
+      "Personal care routines",
+      "Travel training",
+      "Communication and social skills"
+    ],
+    "icon": "skills",
+    "image": "/images/services/life-skills.jpg",
+    "faqs": [
+      {
+        "q": "How do you set goals?",
+        "a": "We keep it simple: we talk about what matters to you, choose small steps, and review progress regularly."
+      },
+      {
+        "q": "Can families be involved?",
+        "a": "Yes. With your consent, we can include families/support people to keep supports consistent."
+      }
+    ]
+  },
+  {
+    "id": "coordination",
+    "title": "Support Coordination (when available)",
+    "summary": "Help understanding and using your NDIS plan, connecting with services that match your goals.",
+    "bullets": [
+      "Understanding your plan and supports",
+      "Connecting you with providers",
+      "Booking and coordinating services",
+      "Building confidence to manage supports"
+    ],
+    "note": "Optional service: available depending on staffing and participant needs.",
+    "icon": "plan",
+    "image": "/images/services/support-coordination.jpg",
+    "faqs": [
+      {
+        "q": "Is Support Coordination always available?",
+        "a": "Not always. Availability depends on staffing and participant needs. Contact us and we’ll confirm."
+      },
+      {
+        "q": "Can you help me understand my plan?",
+        "a": "Yes. We can explain supports clearly and help you take the next steps."
+      }
+    ]
+  },
+  {
+    "id": "day-programs",
+    "title": "Day Programs (Coming Soon)",
+    "summary": "Group activities in a welcoming environment—available as we grow and expand our supports.",
+    "bullets": [
+      "Creative and social activities",
+      "Life skills groups",
+      "Community excursions"
+    ],
+    "note": "Coming soon: we plan to introduce day programs once we are registered and have enough participants.",
+    "icon": "clock",
+    "image": "/images/services/day-programs.jpg",
+    "faqs": [
+      {
+        "q": "When will day programs start?",
+        "a": "As we grow and expand. We’ll update the website once dates and availability are confirmed."
+      }
+    ]
+  }
+]

@@ -1,39 +1,56 @@
-import { useSeo } from "../hooks/useSeo";
+import { Link } from "react-router-dom";
 
 export default function About() {
-  useSeo({
-    title: "Who We Support | Together We Thrive",
-    description:
-      "We support NDIS participants with intellectual disabilities and cognitive impairments, plus families and coordinators.",
-  });
-
   return (
-    <section className="page">
+    <main className="page" id="main">
       <header className="page-header">
-        <h1>Who We Support</h1>
+        <h1>About Us</h1>
         <p className="muted">
-          We keep communication simple, respectful, and clear.
+          Together We Thrive Support Co is an NDIS disability support provider based in
+          South Western Sydney, with the aim to support participants across NSW as we grow.
         </p>
       </header>
 
-      <div className="card">
-        <h2>We support people who need</h2>
-        <ul className="list">
-          <li>Support at home</li>
-          <li>Support to go into the community</li>
-          <li>Respectful personal care</li>
-          <li>Clear communication and consistent routines</li>
-        </ul>
-      </div>
+      <section className="grid-2" aria-label="About Together We Thrive">
+        <div className="card">
+          <h2>Our Mission</h2>
+          <p>
+            We provide warm, respectful support that helps people live safely,
+            confidently, and independently—at home and in the community.
+          </p>
+        </div>
 
-      <div className="card">
-        <h2>We also work with</h2>
-        <ul className="list">
-          <li>Families and carers</li>
-          <li>Support coordinators</li>
-          <li>Plan managers</li>
-        </ul>
-      </div>
-    </section>
+        <div className="card">
+          <h2>Our Approach</h2>
+          <ul className="list">
+            <li>Clear communication and simple planning</li>
+            <li>Support tailored to goals and preferences</li>
+            <li>Respect, privacy, and dignity in every interaction</li>
+            <li>Inclusive support for participants, families, and coordinators</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="card" style={{ marginTop: "1rem" }} aria-label="Registration status">
+        <h2>NDIS Registration Status</h2>
+        <p className="muted" style={{ marginTop: ".25rem" }}>
+          NDIS registration is currently pending. We will update our website once registration is confirmed.
+        </p>
+      </section>
+
+      <section className="contact-strip" aria-label="Next steps">
+        <div>
+          <h2 style={{ margin: 0 }}>Want to talk to us?</h2>
+          <p className="muted" style={{ margin: ".25rem 0 0" }}>
+            We’re happy to answer questions and help you understand the next steps.
+          </p>
+        </div>
+
+        <div className="contact-strip-actions">
+          <Link className="btn primary" to="/contact">Enquire</Link>
+          <Link className="btn ghost" to="/services">View Services</Link>
+        </div>
+      </section>
+    </main>
   );
 }

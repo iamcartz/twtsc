@@ -1,0 +1,161 @@
+/* Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ===== THEME: TEAL + DARK GREY ===== */
+:root {
+  --bg: #f7faf9;
+  --card: #ffffff;
+
+  /* dark grey */
+  --text: #1f2937;
+  --muted: #4b5563;
+
+  --border: #e5e7eb;
+
+  /* teal */
+  --teal: #0f766e;
+  --teal-2: #14b8a6;
+  --teal-soft: #e6fffb;
+
+  --soft: #eef7f6;
+  --soft2: #e9fbf8;
+
+  --shadow: 0 10px 30px rgba(31, 41, 55, 0.08);
+  --radius: 16px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* Skip link (only on focus) */
+.skip-link {
+  position: absolute !important;
+  top: 12px;
+  left: 12px;
+
+  padding: 0.6rem 1rem;
+  background: var(--text);
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: 800;
+  text-decoration: none;
+
+  transform: translateY(-200%);
+  opacity: 0;
+  pointer-events: none;
+
+  z-index: 2000;
+}
+.skip-link:focus {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Layout */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.page {
+  padding: 1.5rem 0 3rem;
+}
+
+.page-header {
+  margin-bottom: 1.2rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Focus styles */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+summary:focus {
+  outline: 3px solid var(--teal-2);
+  outline-offset: 3px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  border: 0;
+  border-radius: 12px;
+  padding: 0.75rem 1.15rem;
+  font-weight: 900;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn.primary {
+  background: var(--teal);
+  color: #ffffff;
+}
+.btn.primary:hover {
+  filter: brightness(0.95);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 2px solid #dbe4ee;
+}
+.btn.ghost:hover {
+  background: rgba(15, 118, 110, 0.06);
+}
+
+/* Cards / grids */
+.grid-2 {
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.note {
+  margin-top: 1rem;
+  background: #ffffff;
+  border: 1px dashed rgba(15, 118, 110, 0.35);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
