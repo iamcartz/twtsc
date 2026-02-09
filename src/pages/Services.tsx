@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import type { ReactNode } from "react";
 
 import services from "../data/services.json";
 import { serviceIcons } from "../components/ServiceIcons";
 import { Seo } from "../components/Seo";
 import useReveal from "../hooks/useReveal";
+import "../styles/Services.css";
 
 type Faq = { q: string; a: string };
 
@@ -21,44 +22,41 @@ type Service = {
   faqs?: Faq[];
 };
 
-const CATEGORY_ORDER = [
-  "All",
-  "Daily Living",
-  "Home Support",
-  "Community",
-  "Capacity Building",
-  "Transport",
-  "Other"
-] as const;
-
 export default function Services() {
   useReveal();
 
   const items = services as Service[];
-  const [category, setCategory] =
-    useState<(typeof CATEGORY_ORDER)[number]>("All");
 
   const iconFor = (key: string): ReactNode =>
     serviceIcons[key] || serviceIcons["people"];
 
-  const categories = useMemo(() => {
-    const set = new Set<string>(items.map((s) => s.category || "Other"));
-    const list = CATEGORY_ORDER.filter((c) => c === "All" || set.has(c));
-    const extras = Array.from(set).filter((c) => !list.includes(c as any));
-    return [...list, ...extras];
-  }, [items]);
+  const isMentalHealthRelated = (s: Service) => {
+    const hay = [
+      s.title,
+      s.category,
+      s.summary,
+      s.note || "",
+      ...(s.bullets || []),
+      ...(s.faqs ? s.faqs.map((f) => `${f.q} ${f.a}`) : []),
+    ]
+      .join(" ")
+      .toLowerCase();
 
-  const filtered = useMemo(() => {
-    return items.filter((s) => {
-      const cat = s.category || "Other";
-      if (category !== "All" && cat !== category) return false;
-      return true;
-    });
-  }, [items, category]);
+    return (
+      hay.includes("mental health") ||
+      hay.includes("psychosocial") ||
+      hay.includes("wellbeing") ||
+      hay.includes("well-being") ||
+      hay.includes("anxiety") ||
+      hay.includes("depression") ||
+      hay.includes("trauma") ||
+      hay.includes("coping")
+    );
+  };
 
   const pageTitle = "Services | Together We Thrive Support Co";
   const pageDesc =
-    "Explore our supports including personal care, in-home support, and social & community participation.";
+    "Explore our supports including personal care, in-home support, community participation, and psychosocial (mental health) wellbeing support.";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -94,82 +92,114 @@ export default function Services() {
           </div>
 
           <h1>Our Services</h1>
+
           <p className="lead">
-            Simple, caring supports designed to be easy to understand and access — at home and in the community.
+            Simple, caring supports designed to be easy to understand and access
+            — at home and in the community.
+          </p>
+
+          <p className="muted" style={{ marginTop: ".5rem" }}>
+            We also support participants with{" "}
+            <strong>psychosocial disability</strong> through calm, practical{" "}
+            <strong>mental health &amp; wellbeing</strong> supports.
           </p>
 
           <p className="muted" style={{ marginTop: ".5rem" }}>
             <strong>Registration status:</strong> NDIS registration is currently pending.
           </p>
-
-          {/* Category pills only (search removed) */}
-          <div className="pill-row" aria-label="Filter services by category">
-            {categories.map((c) => (
-              <button
-                key={c}
-                type="button"
-                className={c === category ? "pill pill-active" : "pill"}
-                onClick={() => setCategory(c as any)}
-                aria-pressed={c === category}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
         </div>
 
         <div className="hero-image">
           <img
             src="/images/services-hero.jpg"
             alt="Support worker with participant in a welcoming community setting"
-            loading="eager"
           />
         </div>
       </section>
 
-      {/* GRID */}
-      <section className="svc-grid" aria-label="Our services" style={{ marginTop: "1.25rem" }}>
-        {filtered.map((service) => (
-          <article className="svc-card reveal" key={service.id}>
-            {/* Image: show FULL image without cropping */}
-            <div className="svc-media" aria-hidden="true">
-              <img className="svc-img" src={service.image} alt="" loading="lazy" />
-            </div>
+      {/* MENTAL HEALTH INTRO */}
+      <section
+        className="card"
+        style={{ marginTop: "1.25rem" }}
+        aria-label="Mental health and psychosocial disability support"
+      >
+        <h2>🧠 Psychosocial Disability &amp; Mental Wellbeing</h2>
+        <p className="muted" style={{ marginTop: ".35rem" }}>
+          We support people who experience mental health challenges to build routine,
+          confidence, and community connection — at your pace, with calm and respectful support.
+        </p>
+        <ul className="list" style={{ marginTop: ".5rem" }}>
+          <li>Support with daily routines and planning</li>
+          <li>Confidence building for community access</li>
+          <li>Step-by-step support to reach personal goals</li>
+          <li>Support for families and carers (with consent)</li>
+        </ul>
+      </section>
 
-            <div className="svc-body">
-              <div className="svc-head">
-                <span className="svc-ico" aria-hidden="true">
-                  <span className="svc-ico-inner">{iconFor(service.icon)}</span>
-                </span>
+      {/* SERVICES GRID */}
+      <section
+        className="svc-grid"
+        aria-label="Our services"
+        style={{ marginTop: "1.25rem" }}
+      >
+        {items.map((service) => {
+          const mh = isMentalHealthRelated(service);
 
-                <div className="svc-head-text">
-                  <div className="svc-cat">{service.category || "Other"}</div>
-                  <h2 className="svc-title">{service.title}</h2>
-                  <p className="svc-summary">{service.summary}</p>
+          return (
+            <article className="svc-card reveal" key={service.id}>
+              <div className="svc-body">
+                <div className="svc-head">
+                  <span className="svc-ico" aria-hidden="true">
+                    <span className="svc-ico-inner">
+                      {iconFor(service.icon)}
+                    </span>
+                  </span>
+
+                  <div className="svc-head-text">
+                    <div className="svc-cat">
+                      {service.category || "Other"}
+                      {mh && (
+                        <span
+                          style={{
+                            marginLeft: ".5rem",
+                            fontSize: ".85rem",
+                            padding: ".15rem .5rem",
+                            borderRadius: "999px",
+                            border: "1px solid rgba(0,0,0,.12)",
+                            background: "rgba(0,0,0,.04)"
+                          }}
+                        >
+                          🧠 Mental health
+                        </span>
+                      )}
+                    </div>
+
+                    <h2 className="svc-title">{service.title}</h2>
+                    <p className="svc-summary">{service.summary}</p>
+                  </div>
+                </div>
+
+                <ul className="svc-list">
+                  {service.bullets.slice(0, 4).map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+                </ul>
+
+                {service.note && (
+                  <p className="muted" style={{ marginTop: "0.75rem" }}>
+                    <strong>Note:</strong> {service.note}
+                  </p>
+                )}
+
+                <div className="cta-row">
+                  <Link className="btn primary" to={`/services/${service.id}`}>
+                    Learn more
+                  </Link>
                 </div>
               </div>
-
-              <ul className="svc-list">
-                {service.bullets.slice(0, 4).map((b) => (
-                  <li key={b}>{b}</li>
-                ))}
-              </ul>
-
-              {service.note ? (
-                <p className="muted" style={{ marginTop: "0.75rem" }}>
-                  <strong>Note:</strong> {service.note}
-                </p>
-              ) : null}
-
-              {/* ONLY LEARN MORE */}
-              <div className="cta-row" style={{ marginTop: "1rem" }}>
-                <Link className="btn primary" to={`/services/${service.id}`}>
-                  Learn more
-                </Link>
-              </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </section>
 
       {/* HELP STRIP */}
@@ -179,7 +209,9 @@ export default function Services() {
           Tell us a little about your situation and goals. We’ll help you understand your options and the next steps.
         </p>
         <div className="cta-row">
-          <Link className="btn primary" to="/contact">Contact Us</Link>
+          <Link className="btn primary" to="/contact">
+            Contact Us
+          </Link>
         </div>
       </section>
     </main>

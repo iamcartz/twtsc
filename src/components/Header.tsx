@@ -55,7 +55,8 @@ function IconStar() {
 function ServiceIcon({ id }: { id: string }) {
   const k = id.toLowerCase();
   if (k.includes("home")) return <IconHome />;
-  if (k.includes("community") || k.includes("social") || k.includes("participation")) return <IconPeople />;
+  if (k.includes("community") || k.includes("social") || k.includes("participation"))
+    return <IconPeople />;
   if (k.includes("transport")) return <IconCar />;
   if (k.includes("plan") || k.includes("coord")) return <IconPlan />;
   if (k.includes("skill") || k.includes("capacity")) return <IconStar />;
@@ -81,12 +82,12 @@ export default function Header() {
 
   const closeMenu = () => setServicesOpen(false);
 
-  // ✅ Close on route change
+  // Close on route change
   useEffect(() => {
     closeMenu();
   }, [location.pathname]);
 
-  // ✅ Click outside closes
+  // Click outside closes
   useEffect(() => {
     function onDocDown(e: MouseEvent) {
       if (!servicesOpen) return;
@@ -97,7 +98,7 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", onDocDown);
   }, [servicesOpen]);
 
-  // ✅ Focus first item when opened
+  // Focus first item when opened
   useEffect(() => {
     if (!servicesOpen) return;
     window.requestAnimationFrame(() => {
@@ -105,24 +106,28 @@ export default function Header() {
     });
   }, [servicesOpen]);
 
-  // ✅ Navigate on POINTER DOWN so it still fires even if menu closes
+  // Navigate on pointer down so it still fires even if menu closes
   function goOnPointerDown(e: React.PointerEvent, to: string) {
-    // Prevent extra focus/selection, keep event clean
     e.preventDefault();
     e.stopPropagation();
-
-    // Navigate first; route-change effect will also close the menu
     navigate(to);
-
-    // Close immediately for instant UI feedback
     closeMenu();
   }
 
-  // ✅ Keyboard navigation inside mega menu
+  // Keyboard navigation inside mega menu
   function onMegaKeyDown(e: React.KeyboardEvent) {
     if (!servicesOpen) return;
 
-    const allowed = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight", "Home", "End", "Escape", "Tab"];
+    const allowed = [
+      "ArrowDown",
+      "ArrowUp",
+      "ArrowLeft",
+      "ArrowRight",
+      "Home",
+      "End",
+      "Escape",
+      "Tab",
+    ];
     if (!allowed.includes(e.key)) return;
 
     const list = itemRefs.current.filter(Boolean);
@@ -136,8 +141,7 @@ export default function Header() {
       return;
     }
 
-    // Let Tab behave normally
-    if (e.key === "Tab") return;
+    if (e.key === "Tab") return; // allow normal tab
 
     e.preventDefault();
 
@@ -162,10 +166,10 @@ export default function Header() {
         break;
       }
       case "ArrowRight":
-        next = Math.min(list.length - 1, (idx >= 0 ? idx + 1 : 0));
+        next = Math.min(list.length - 1, idx >= 0 ? idx + 1 : 0);
         break;
       case "ArrowLeft":
-        next = Math.max(0, (idx >= 0 ? idx - 1 : 0));
+        next = Math.max(0, idx >= 0 ? idx - 1 : 0);
         break;
       case "Home":
         next = 0;
@@ -318,13 +322,19 @@ export default function Header() {
                 <h3 className="nav-mega-side-title">Helpful Links</h3>
                 <ul className="nav-mega-side-list">
                   <li>
-                    <button type="button" onPointerDown={(e) => goOnPointerDown(e, "/how-we-help")}>
-                      How We Help
+                    <button type="button" onPointerDown={(e) => goOnPointerDown(e, "/about")}>
+                      About Us
                     </button>
                   </li>
                   <li>
-                    <button type="button" onPointerDown={(e) => goOnPointerDown(e, "/about")}>
-                      About Us
+                    <button type="button" onPointerDown={(e) => goOnPointerDown(e, "/referral")}>
+                      Referral
+                    </button>
+                  </li>
+
+                  <li>
+                    <button type="button" onPointerDown={(e) => goOnPointerDown(e, "/how-we-help")}>
+                      How We Help
                     </button>
                   </li>
                   <li>
@@ -338,11 +348,18 @@ export default function Header() {
             </div>
           </li>
 
-          <li>
+          {/* <li>
             <NavLink to="/how-we-help" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
               How We Help
             </NavLink>
+          </li> */}
+
+          <li>
+            <NavLink to="/referral" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+              Referral
+            </NavLink>
           </li>
+
 
           <li>
             <NavLink to="/contact" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>

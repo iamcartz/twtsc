@@ -1,0 +1,194 @@
+/* =========================
+   Referral page styles
+   File: src/styles/Referral.css
+   ========================= */
+
+.ref-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 1.25rem;
+  align-items: stretch;
+  margin-top: 1rem;
+}
+
+@media (max-width: 980px) {
+  .ref-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ref-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.2rem 1.25rem;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  transition: transform 160ms ease;
+}
+
+.ref-card:hover {
+  transform: translateY(-2px);
+}
+
+.ref-card:focus-within {
+  outline: 3px solid rgba(20, 184, 166, 0.35);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ref-card {
+    transition: none;
+  }
+  .ref-card:hover {
+    transform: none;
+  }
+}
+
+.ref-card h3 {
+  margin: 0 0 0.75rem;
+}
+
+.ref-note {
+  margin-top: 1rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 12px;
+  background: rgba(15, 118, 110, 0.08);
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* Form */
+.ref-form {
+  margin-top: 0.5rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.ref-fieldset {
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  border-radius: 14px;
+  padding: 0.9rem 0.95rem;
+  background: rgba(15, 118, 110, 0.03);
+}
+
+.ref-fieldset legend {
+  padding: 0 0.4rem;
+  font-weight: 900;
+}
+
+.ref-form label {
+  display: block;
+  font-weight: 900;
+  margin-top: 0.75rem;
+}
+
+.ref-form label:first-of-type {
+  margin-top: 0;
+}
+
+.ref-form input,
+.ref-form select,
+.ref-form textarea {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.78rem 0.9rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #ffffff;
+  color: var(--text);
+  box-shadow: 0 1px 0 rgba(31, 41, 55, 0.03);
+
+  min-height: 44px; /* accessibility tap size */
+}
+
+.ref-form textarea {
+  resize: vertical;
+  min-height: 160px;
+}
+
+.ref-form input:hover,
+.ref-form select:hover,
+.ref-form textarea:hover {
+  border-color: rgba(15, 118, 110, 0.35);
+}
+
+.ref-form input:focus,
+.ref-form select:focus,
+.ref-form textarea:focus {
+  border-color: var(--teal-2);
+  outline: 3px solid rgba(20, 184, 166, 0.35);
+  outline-offset: 2px;
+}
+
+/* Two column row for contact fields */
+.ref-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 980px) {
+  .ref-two {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Checkbox */
+.ref-check {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  margin-top: 0.85rem;
+  font-weight: 700;
+}
+
+.ref-check input {
+  width: 20px;
+  height: 20px;
+  margin-top: 0.25rem;
+  min-height: unset;
+}
+
+.ref-helper {
+  margin: 0.7rem 0 0;
+}
+
+/* Status */
+.ref-success {
+  margin: 0.6rem 0 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  background: rgba(15, 118, 110, 0.10);
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  color: var(--text);
+  font-weight: 900;
+}
+
+/* Errors */
+.error-list {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: #b91c1c;
+  font-weight: 900;
+}
+
+.error-list li {
+  margin: 0.2rem 0;
+}
+
+/* QR block */
+.qr-wrap {
+  display: inline-flex;
+  padding: 0.75rem;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid rgba(31, 41, 55, 0.12);
+  box-shadow: 0 10px 30px rgba(31, 41, 55, 0.06);
+}

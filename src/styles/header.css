@@ -7,6 +7,27 @@
   border-bottom: 1px solid var(--border);
 }
 
+/* Skip link (keyboard accessibility) */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -60px;
+  padding: 0.6rem 0.9rem;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  color: var(--text);
+  font-weight: 900;
+  text-decoration: none;
+  z-index: 1100;
+}
+.skip-link:focus {
+  top: 0.75rem;
+  outline: 3px solid rgba(20, 184, 166, 0.35);
+  outline-offset: 3px;
+}
+
 /* ===== Top contact bar ===== */
 .topbar {
   background: rgba(15, 118, 110, 0.08);
@@ -178,12 +199,39 @@
   padding: 0.55rem 0.9rem;
   border-radius: 999px;
 }
+
+/* Hover */
 .nav-link:hover {
   background: rgba(15, 118, 110, 0.08);
 }
+
+/* Active */
 .nav-link.active {
   background: var(--teal);
   color: #ffffff;
+}
+
+/* Optional: subtle pill for Referral */
+.nav-link-pill {
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  background: rgba(15, 118, 110, 0.06);
+}
+.nav-link-pill:hover {
+  background: rgba(15, 118, 110, 0.10);
+  border-color: rgba(15, 118, 110, 0.28);
+}
+.nav-link-pill.active {
+  border-color: rgba(15, 118, 110, 0.35);
+}
+
+/* Focus ring for keyboard users */
+.nav-link:focus,
+.nav-mega-trigger:focus,
+.topbar-link:focus,
+.topbar-cta:focus,
+.nav-mega-all:focus {
+  outline: 3px solid rgba(20, 184, 166, 0.35);
+  outline-offset: 3px;
 }
 
 /* Responsive */
@@ -204,3 +252,304 @@
   }
 }
 
+/* ================================
+   MEGA MENU (React controlled)
+================================ */
+
+/* allow dropdown to escape sticky header */
+.site-header,
+.nav {
+  overflow: visible;
+}
+
+/* wrapper */
+.nav-mega {
+  position: relative;
+}
+
+/* trigger button */
+.nav-mega-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* caret */
+.nav-mega-caret {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+/* ================================
+   MENU CONTAINER (closed by default)
+================================ */
+
+.nav-mega-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translate(-50%, -8px);
+
+  width: min(1200px, calc(100vw - 2rem));
+  min-width: 320px;
+
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  z-index: 5000;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+/* OPEN STATE — only when React adds .is-open */
+.nav-mega.is-open .nav-mega-menu {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+/* layout: main + side */
+.nav-mega-menu {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+}
+
+/* ================================
+   MAIN AREA
+================================ */
+
+.nav-mega-main {
+  padding: 1rem;
+}
+
+.nav-mega-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.nav-mega-col {
+  display: grid;
+  gap: 0.65rem;
+}
+
+/* service row */
+.nav-mega-item {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 0.75rem;
+  align-items: start;
+
+  padding: 0.75rem;
+  border-radius: 14px;
+  border: 1px solid transparent;
+
+  background: none;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+
+  min-width: 0;
+}
+
+.nav-mega-item:hover,
+.nav-mega-item:focus-visible {
+  background: rgba(15, 118, 110, 0.06);
+  border-color: rgba(15, 118, 110, 0.18);
+  outline: none;
+}
+
+/* icon circle */
+.nav-mega-ico {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(15, 118, 110, 0.10);
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  flex: 0 0 40px;
+}
+
+.nav-mega-ico svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--teal);
+}
+
+/* text */
+.nav-mega-text {
+  min-width: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.nav-mega-title {
+  font-weight: 900;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.nav-mega-desc {
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.92rem;
+  line-height: 1.35;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* bottom link */
+.nav-mega-bottom {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.nav-mega-all {
+  background: none;
+  border: none;
+  color: var(--teal);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.nav-mega-all:hover {
+  text-decoration: underline;
+}
+
+/* ================================
+   SIDE PANEL
+================================ */
+
+.nav-mega-side {
+  background: rgba(15, 118, 110, 0.08);
+  border-left: 1px solid rgba(15, 118, 110, 0.14);
+  padding: 1.1rem 1rem;
+}
+
+.nav-mega-side-title {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.nav-mega-side-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.nav-mega-side-list button {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font-weight: 800;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.nav-mega-side-list button:hover {
+  color: var(--teal);
+  text-decoration: underline;
+}
+
+.nav-mega-side-note {
+  margin-top: 0.9rem;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 980px) {
+  .nav-mega-menu {
+    position: static;
+    width: 100%;
+    min-width: 0;
+    left: auto;
+    transform: none;
+
+    grid-template-columns: 1fr;
+    margin-top: 0.4rem;
+
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav-mega.is-open .nav-mega-menu {
+    display: grid;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-mega-cols {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-mega-side {
+    border-left: 0;
+    border-top: 1px solid rgba(15, 118, 110, 0.14);
+  }
+}
+
+/* ===== Upgrades: animation + caret rotation ===== */
+
+.nav-mega.is-open .nav-mega-caret {
+  transform: rotate(180deg);
+}
+
+.nav-mega-caret {
+  display: inline-block;
+  transition: transform 160ms ease;
+}
+
+/* smooth open/close */
+.nav-mega-menu {
+  transform-origin: top center;
+}
+
+/* reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .nav-mega-menu,
+  .nav-mega-caret {
+    transition: none !important;
+  }
+}
+
+/* Referral CTA in main nav — match topbar Enquire */
+.nav-link-cta {
+  background: var(--teal);
+  color: #ffffff !important;
+  font-weight: 900;
+}
+
+.nav-link-cta:hover {
+  filter: brightness(0.95);
+  background: var(--teal);
+}
+
+/* Keep active state consistent */
+.nav-link-cta.active {
+  background: var(--teal);
+  color: #ffffff;
+}

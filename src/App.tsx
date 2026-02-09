@@ -13,6 +13,8 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Accessibility from "./pages/Accessibility";
 import ScrollToTop from "./components/ScrollToTop";
+import Referral from "./pages/Referral";
+
 
 
 export default function App() {
@@ -31,6 +33,8 @@ export default function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/accessibility" element={<Accessibility />} />
+          <Route path="/referral" element={<Referral />} />
+
 
 
           {/* Fallback */}

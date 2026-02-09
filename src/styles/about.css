@@ -1,0 +1,105 @@
+/* ============================
+   ABOUT PAGE ACCESSIBILITY
+   ============================ */
+
+/* Keep content readable */
+.page {
+  max-width: 1100px;
+}
+
+/* Headings */
+.page h1 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  line-height: 1.15;
+}
+
+.page h2 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+/* Body text */
+.page p,
+.page li {
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+/* Muted text: keep readable */
+.muted {
+  line-height: 1.7;
+}
+
+/* Cards */
+.card {
+  padding: 1.25rem;
+}
+
+.card p {
+  margin-top: 0.5rem;
+}
+
+/* Lists */
+.list {
+  padding-left: 1.2rem;
+  margin-top: 0.6rem;
+}
+
+.list li {
+  margin-bottom: 0.6rem;
+}
+
+/* Grids */
+.grid-2 {
+  gap: 1.25rem;
+}
+
+/* Contact strip */
+.contact-strip {
+  margin-top: 2rem;
+  padding: 1.5rem;
+}
+
+.contact-strip h2 {
+  margin: 0;
+}
+
+/* Buttons: larger tap area */
+.btn {
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+}
+
+/* Pills: readable */
+.pill-row {
+  margin-top: 0.75rem;
+}
+
+.pill {
+  font-size: 0.95rem;
+  padding: 0.35rem 0.75rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .page h1 {
+    font-size: 1.9rem;
+  }
+
+  .page h2 {
+    font-size: 1.35rem;
+  }
+
+  .page p,
+  .page li {
+    font-size: 1rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .contact-strip {
+    padding: 1.25rem;
+  }
+}

@@ -1,0 +1,215 @@
+/* =========================
+   Contact page styles
+   File: src/styles/Contact.css
+   ========================= */
+
+/* Layout */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: stretch; /* equal height columns */
+}
+
+@media (max-width: 980px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Cards */
+.contact-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.2rem 1.25rem;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  transition: transform 160ms ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-2px);
+}
+
+.contact-card:focus-within {
+  outline: 3px solid rgba(20, 184, 166, 0.35);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-card {
+    transition: none;
+  }
+  .contact-card:hover {
+    transform: none;
+  }
+}
+
+/* Headings */
+.contact-card h2 {
+  margin: 0 0 0.65rem;
+}
+
+.contact-card h3 {
+  margin: 1rem 0 0.6rem;
+}
+
+/* Divider */
+.contact-divider {
+  margin: 1rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* Links */
+.contact-card p a {
+  font-weight: 900;
+  text-decoration: none;
+  border-bottom: 2px solid rgba(15, 118, 110, 0.25);
+}
+
+.contact-card p a:hover {
+  color: var(--teal);
+  border-bottom-color: rgba(15, 118, 110, 0.55);
+}
+
+/* Map tabs */
+.contact-map-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0.35rem 0 0.85rem;
+}
+
+.contact-map-tabs .btn.ghost {
+  border-color: rgba(15, 118, 110, 0.18);
+}
+
+.contact-map-tabs .btn.ghost.is-active {
+  background: rgba(15, 118, 110, 0.10);
+  border-color: rgba(15, 118, 110, 0.35);
+}
+
+/* Map */
+.map-embed {
+  margin-top: auto; /* balances height */
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(31, 41, 55, 0.10);
+  box-shadow: 0 10px 30px rgba(31, 41, 55, 0.06);
+}
+
+.map-embed iframe {
+  display: block;
+  width: 100%;
+  height: 280px;
+  border: 0;
+}
+
+/* Form */
+.contact-card form {
+  margin-top: 0.35rem;
+  display: grid;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.contact-card form label {
+  display: block;
+  font-weight: 900;
+  margin-bottom: 0.9rem;
+}
+
+.contact-card input,
+.contact-card textarea,
+.contact-card select {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.78rem 0.9rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #ffffff;
+  color: var(--text);
+  box-shadow: 0 1px 0 rgba(31, 41, 55, 0.03);
+
+  min-height: 44px; /* accessibility tap size */
+}
+
+.contact-card textarea {
+  resize: vertical;
+  min-height: 160px;
+}
+
+/* Hover */
+.contact-card input:hover,
+.contact-card textarea:hover,
+.contact-card select:hover {
+  border-color: rgba(15, 118, 110, 0.35);
+}
+
+/* Focus */
+.contact-card input:focus,
+.contact-card textarea:focus,
+.contact-card select:focus,
+.contact-card button:focus {
+  border-color: var(--teal-2);
+  outline: 3px solid rgba(20, 184, 166, 0.35);
+  outline-offset: 2px;
+}
+
+/* Dropdown */
+.contact-card select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding-right: 2.75rem;
+  cursor: pointer;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--teal) 50%),
+    linear-gradient(135deg, var(--teal) 50%, transparent 50%),
+    linear-gradient(to right, rgba(15, 118, 110, 0.18), rgba(15, 118, 110, 0.18));
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 12px) 50%,
+    calc(100% - 42px) 50%;
+  background-size:
+    6px 6px,
+    6px 6px,
+    1px 60%;
+  background-repeat: no-repeat;
+}
+
+/* Status */
+.contact-success {
+  margin: 0.6rem 0 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  background: rgba(15, 118, 110, 0.10);
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  color: var(--text);
+  font-weight: 900;
+}
+
+.error-list {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: #b91c1c;
+  font-weight: 900;
+}
+
+.error-list li {
+  margin: 0.2rem 0;
+}
+
+/* Helper text */
+.contact-helper {
+  margin-top: 0.75rem;
+}
