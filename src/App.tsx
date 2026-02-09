@@ -12,11 +12,14 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Accessibility from "./pages/Accessibility";
+import ScrollToTop from "./components/ScrollToTop";
+
 
 export default function App() {
   return (
     <>
       <Header />
+      <ScrollToTop />
       <main id="main-content" tabIndex={-1}>
         <Routes>
           <Route path="/" element={<Home />} />

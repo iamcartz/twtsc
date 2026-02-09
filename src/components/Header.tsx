@@ -197,13 +197,13 @@ export default function Header() {
               <span>0400 000 000</span>
             </a>
 
-            <a className="topbar-link" href="mailto:info@togetherwethrive.com.au">
+            <a className="topbar-link" href="mailto:info@twt.com.au">
               <span className="topbar-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
                 </svg>
               </span>
-              <span>info@togetherwethrive.com.au</span>
+              <span>info@twt.com.au</span>
             </a>
           </div>
 

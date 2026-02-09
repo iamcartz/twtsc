@@ -2,6 +2,7 @@
   {
     "id": "personal-care",
     "title": "Personal Care & Daily Living Support",
+    "category": "Daily Living",
     "summary": "Warm, respectful support with personal tasks so you can live safely and comfortably.",
     "bullets": [
       "Showering, bathing, grooming and dressing",
@@ -27,6 +28,7 @@
   {
     "id": "in-home",
     "title": "In-Home Support & Household Tasks",
+    "category": "Home Support",
     "summary": "Practical help at home to keep routines running smoothly and your space comfortable.",
     "bullets": [
       "Meal preparation and light cooking",
@@ -51,6 +53,7 @@
   {
     "id": "community",
     "title": "Social & Community Participation",
+    "category": "Community",
     "summary": "Support to get out and about, enjoy activities, and build confidence in the community.",
     "bullets": [
       "Attending community events",
@@ -75,6 +78,7 @@
   {
     "id": "transport",
     "title": "Transport Support",
+    "category": "Transport",
     "summary": "Safe transport assistance so you can get to appointments, activities, and daily errands.",
     "bullets": [
       "Appointments and shopping",
@@ -98,6 +102,7 @@
   {
     "id": "skills",
     "title": "Capacity Building & Life Skills",
+    "category": "Capacity Building",
     "summary": "Support to build independence with everyday skills—at your pace, in a way that works for you.",
     "bullets": [
       "Cooking and meal planning",
@@ -122,6 +127,7 @@
   {
     "id": "coordination",
     "title": "Support Coordination (when available)",
+    "category": "Capacity Building",
     "summary": "Help understanding and using your NDIS plan, connecting with services that match your goals.",
     "bullets": [
       "Understanding your plan and supports",
@@ -146,6 +152,7 @@
   {
     "id": "day-programs",
     "title": "Day Programs (Coming Soon)",
+    "category": "Community",
     "summary": "Group activities in a welcoming environment—available as we grow and expand our supports.",
     "bullets": [
       "Creative and social activities",
