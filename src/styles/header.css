@@ -707,3 +707,54 @@ body.nav-lock {
     fill: currentColor;
   }
 }
+
+/* =========================
+   FIX: Services button text smaller than NavLink items
+   (button defaults differ from <a>)
+========================= */
+
+/* Make all top nav items align and use the same typography */
+.nav-link {
+  display: inline-flex;        /* was inline-block */
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  font: inherit;               /* key: forces same font-family/size */
+  font-weight: 800;            /* matches your existing weight */
+  line-height: 1;              /* consistent vertical alignment */
+}
+
+/* Force the Services trigger (button) to match links exactly */
+.nav-mega-trigger {
+  font: inherit;               /* removes browser button font differences */
+  font-size: 1rem;             /* ensures it never shrinks */
+  font-weight: 800;
+  line-height: 1;
+  padding: 0.55rem 0.9rem;     /* match .nav-link padding */
+  border-radius: 999px;        /* match .nav-link pill shape */
+  color: var(--text);
+}
+
+/* Remove button default styles completely (safe across browsers) */
+.nav-mega-trigger {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+}
+
+/* Keep hover/active consistent */
+.nav-mega-trigger:hover {
+  background: rgba(15, 118, 110, 0.08);
+}
+
+.nav-link.active {
+  display: inline-flex;        /* ensure active state keeps alignment */
+  align-items: center;
+}
+
+/* Optional: caret sizing so it looks consistent */
+.nav-mega-caret {
+  font-size: 0.9rem;
+  line-height: 1;
+}
