@@ -34,12 +34,165 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
+/**
+ * Injects JSON-LD schema safely (no hardcoded domain).
+ * Uses runtime origin/pathname.
+ */
+function useContactJsonLdSchema() {
+  const schemaGraph = useMemo(() => {
+    const origin =
+      typeof window !== "undefined" ? window.location.origin : "";
+    const pathname =
+      typeof window !== "undefined" ? window.location.pathname : "/contact";
+
+    const pageUrl = origin ? `${origin}${pathname}` : "/contact";
+    const siteUrl = origin || "";
+    const orgId = siteUrl ? `${siteUrl}#organization` : "#organization";
+    const websiteId = siteUrl ? `${siteUrl}#website` : "#website";
+    const webpageId = pageUrl ? `${pageUrl}#webpage` : "#webpage";
+    const breadcrumbsId = pageUrl ? `${pageUrl}#breadcrumbs` : "#breadcrumbs";
+
+    const logoUrl = origin ? `${origin}/logo.jpeg` : "/logo.jpeg";
+    const heroImg = origin
+      ? `${origin}/images/contact-hero.png`
+      : "/images/contact-hero.png";
+
+    const breadcrumbs = [
+      { name: "Home", item: origin ? `${origin}/` : "/" },
+      { name: "Contact", item: pageUrl },
+    ];
+
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        // Organization / LocalBusiness (consistent id to link across pages)
+        {
+          "@type": ["Organization", "LocalBusiness"],
+          "@id": orgId,
+          name: "Together We Thrive Support Co",
+          url: siteUrl || undefined,
+          email: EMAIL,
+          telephone: PHONE,
+          logo: logoUrl,
+          image: heroImg,
+          areaServed: {
+            "@type": "AdministrativeArea",
+            name: "New South Wales, Australia",
+          },
+          description:
+            "NDIS disability support provider in South Western Sydney offering in-home support, personal care, community participation and psychosocial disability support.",
+          contactPoint: [
+            {
+              "@type": "ContactPoint",
+              telephone: PHONE,
+              contactType: "customer support",
+              email: EMAIL,
+              areaServed: "AU-NSW",
+              availableLanguage: ["en"],
+            },
+          ],
+        },
+
+        // WebSite
+        {
+          "@type": "WebSite",
+          "@id": websiteId,
+          url: siteUrl || undefined,
+          name: "Together We Thrive Support Co",
+          publisher: { "@id": orgId },
+          inLanguage: "en-AU",
+        },
+
+        // WebPage
+        {
+          "@type": "WebPage",
+          "@id": webpageId,
+          url: pageUrl,
+          name: "Contact | Together We Thrive Support Co",
+          isPartOf: { "@id": websiteId },
+          about: { "@id": orgId },
+          inLanguage: "en-AU",
+        },
+
+        // ContactPage
+        {
+          "@type": "ContactPage",
+          "@id": pageUrl ? `${pageUrl}#contactpage` : "#contactpage",
+          url: pageUrl,
+          name: "Contact",
+          isPartOf: { "@id": websiteId },
+          about: { "@id": orgId },
+          mainEntity: { "@id": orgId },
+        },
+
+        // Places (service locations)
+        {
+          "@type": "Place",
+          "@id": siteUrl ? `${siteUrl}#horsley-park` : "#horsley-park",
+          name: "Together We Thrive Support Co — Horsley Park",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Suite 1/1840 The Horsley Drive",
+            addressLocality: "Horsley Park",
+            addressRegion: "NSW",
+            addressCountry: "AU",
+          },
+        },
+        {
+          "@type": "Place",
+          "@id": siteUrl ? `${siteUrl}#five-dock` : "#five-dock",
+          name: "Together We Thrive Support Co — Five Dock",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Suite 420/49 Queens Road",
+            addressLocality: "Five Dock",
+            addressRegion: "NSW",
+            addressCountry: "AU",
+          },
+        },
+
+        // BreadcrumbList
+        {
+          "@type": "BreadcrumbList",
+          "@id": breadcrumbsId,
+          itemListElement: breadcrumbs.map((b, idx) => ({
+            "@type": "ListItem",
+            position: idx + 1,
+            name: b.name,
+            item: b.item,
+          })),
+        },
+      ],
+    };
+  }, []);
+
+  useEffect(() => {
+    const id = "twt-jsonld-contact";
+    const existing = document.getElementById(id);
+    if (existing) existing.remove();
+
+    const script = document.createElement("script");
+    script.id = id;
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(schemaGraph);
+    document.head.appendChild(script);
+
+    return () => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    };
+  }, [schemaGraph]);
+}
+
 export default function Contact() {
   useSeo({
-    title: "Contact | Together We Thrive",
+    title: "Contact | Together We Thrive Support Co",
     description:
-      "Contact Together We Thrive Support Co for NDIS disability support in South Western Sydney.",
+      "Contact Together We Thrive Support Co for person-centred disability support services and NDIS support services in South Western Sydney. Call, email, or send an enquiry online.",
   });
+
+  // ✅ Inject JSON-LD schema like your About page
+  useContactJsonLdSchema();
 
   const reducedMotion = usePrefersReducedMotion();
 
@@ -144,7 +297,11 @@ export default function Contact() {
       <div className={`hero ${reducedMotion ? "" : "hero-animate"}`}>
         <div className="hero-content">
           <div className="hero-brand">
-            <img className="hero-brand-logo" src="/logo.jpeg" alt="Together We Thrive logo" />
+            <img
+              className="hero-brand-logo"
+              src="/logo.jpeg"
+              alt="Together We Thrive logo"
+            />
             <div className="hero-brand-text">
               <span className="hero-brand-title">Together We Thrive</span>
               <span className="hero-brand-subtitle">Support Co</span>
@@ -171,18 +328,27 @@ export default function Contact() {
           <img src="/images/contact-hero.png" alt="Friendly support worker" />
         </div>
       </div>
+
       <header className="page-header" style={{ marginTop: "1.25rem" }}>
         <h2>How would you like to contact us?</h2>
-        <p className="muted">Choose the option that feels easiest. You can call, email, or send an enquiry form.</p>
+        <p className="muted">
+          Choose the option that feels easiest. You can call, email, or send an
+          enquiry form.
+        </p>
       </header>
-      
+
       <div className="contact-grid">
         {/* LEFT */}
         <div className="contact-card">
           <h2>📍 Get in touch</h2>
 
-          <p><strong>Phone:</strong> <a href={`tel:${PHONE}`}>{PHONE}</a></p>
-          <p><strong>Email:</strong> <a href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
+          <p>
+            <strong>Phone:</strong>{" "}
+            <a href={`tel:${PHONE.replace(/\s/g, "")}`}>{PHONE}</a>
+          </p>
+          <p>
+            <strong>Email:</strong> <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+          </p>
 
           <p className="muted">
             Supporting South Western Sydney, expanding across NSW.
@@ -192,12 +358,14 @@ export default function Contact() {
 
           <div className="contact-map-tabs">
             <button
+              type="button"
               className={`btn ghost ${activeMap === "horsley" ? "is-active" : ""}`}
               onClick={() => setActiveMap("horsley")}
             >
               Horsley Park
             </button>
             <button
+              type="button"
               className={`btn ghost ${activeMap === "fivedock" ? "is-active" : ""}`}
               onClick={() => setActiveMap("fivedock")}
             >
@@ -239,7 +407,9 @@ export default function Contact() {
           >
             {errors.length > 0 && (
               <ul className="error-list form-pop">
-                {errors.map((e, i) => <li key={i}>{e}</li>)}
+                {errors.map((e, i) => (
+                  <li key={i}>{e}</li>
+                ))}
               </ul>
             )}
 

@@ -1,5 +1,6 @@
 import { useSeo } from "../hooks/useSeo";
 
+const PHONE = "+61 433 883 614";
 export default function Accessibility() {
   useSeo({
     title: "Accessibility Statement | Together We Thrive",
@@ -38,7 +39,7 @@ export default function Accessibility() {
           Email:{" "}
           <a href="mailto:info@twt.com.au">info@twt.com.au</a>
           <br />
-          Phone: <a href="tel:0400000000">0400 000 000</a>
+          Phone: <a href={`tel:${PHONE.replace(/\s/g, "")}`}>{PHONE}</a>
         </p>
       </div>
     </section>

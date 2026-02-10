@@ -9,7 +9,7 @@
   margin: 0 auto;
   padding: 3rem 1.5rem;
   display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr;
+  grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
   gap: 2rem;
 }
 
@@ -47,6 +47,7 @@
   font-size: 0.9rem;
 }
 
+/* Links list */
 .footer-links {
   list-style: none;
   padding: 0;
@@ -65,6 +66,37 @@
   text-decoration: underline;
 }
 
+/* Footer contact block */
+.footer-contact a {
+  color: var(--text);
+  font-weight: 800;
+  text-decoration: none;
+}
+.footer-contact a:hover {
+  color: var(--teal);
+  text-decoration: underline;
+}
+
+/* Action buttons row inside footer (uses your existing .btn styles) */
+.footer-actions {
+  margin-top: 0.6rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.footer-actions .btn {
+  padding: 0.55rem 0.85rem;
+  font-size: 0.95rem;
+  border-radius: 12px;
+}
+
+/* Make footer buttons feel lighter so they don’t dominate */
+.footer-actions .btn.ghost {
+  background: transparent;
+}
+
+/* Bottom bar */
 .footer-bottom {
   border-top: 1px solid var(--border);
   padding: 1.25rem 1.5rem;
@@ -78,9 +110,29 @@
   color: var(--muted);
 }
 
-@media (max-width: 980px) {
+/* Tablet */
+@media (max-width: 1024px) {
+  .footer-inner {
+    grid-template-columns: 1.4fr 1fr;
+    gap: 1.5rem;
+    padding: 2.25rem 1.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
   .footer-inner {
     grid-template-columns: 1fr;
-    padding: 2rem 1.5rem;
+    padding: 2rem 1.25rem;
+  }
+
+  .footer-actions {
+    gap: 0.6rem;
+  }
+
+  .footer-actions .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
   }
 }

@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { useSeo } from "../hooks/useSeo";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+const PHONE = "+61 433 883 614";
+const EMAIL = "info@twt.net.au";
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -24,12 +27,117 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
+/**
+ * Inject JSON-LD safely using runtime origin (no hardcoded domain).
+ * Includes Organization + WebSite + WebPage + BreadcrumbList.
+ */
+function useHomeJsonLdSchema() {
+  const schemaGraph = useMemo(() => {
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const pathname =
+      typeof window !== "undefined" ? window.location.pathname : "/";
+
+    const pageUrl = origin ? `${origin}${pathname}` : "/";
+    const siteUrl = origin || "";
+
+    const orgId = siteUrl ? `${siteUrl}#organization` : "#organization";
+    const websiteId = siteUrl ? `${siteUrl}#website` : "#website";
+    const webpageId = pageUrl ? `${pageUrl}#webpage` : "#webpage";
+    const breadcrumbsId = pageUrl ? `${pageUrl}#breadcrumbs` : "#breadcrumbs";
+
+    const logoUrl = origin ? `${origin}/logo.jpeg` : "/logo.jpeg";
+    const heroImg = origin ? `${origin}/images/hero.png` : "/images/hero.png";
+
+    const breadcrumbs = [{ name: "Home", item: origin ? `${origin}/` : "/" }];
+
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["Organization", "LocalBusiness"],
+          "@id": orgId,
+          name: "Together We Thrive Support Co",
+          url: siteUrl || undefined,
+          email: EMAIL,
+          telephone: PHONE,
+          logo: logoUrl,
+          image: heroImg,
+          areaServed: {
+            "@type": "AdministrativeArea",
+            name: "New South Wales, Australia",
+          },
+          description:
+            "Person-centred disability support services and NDIS support services in South Western Sydney, with a focus on psychosocial disability support and mental health & wellbeing support.",
+          contactPoint: [
+            {
+              "@type": "ContactPoint",
+              telephone: PHONE,
+              contactType: "customer support",
+              email: EMAIL,
+              areaServed: "AU-NSW",
+              availableLanguage: ["en"],
+            },
+          ],
+        },
+        {
+          "@type": "WebSite",
+          "@id": websiteId,
+          url: siteUrl || undefined,
+          name: "Together We Thrive Support Co",
+          publisher: { "@id": orgId },
+          inLanguage: "en-AU",
+        },
+        {
+          "@type": "WebPage",
+          "@id": webpageId,
+          url: pageUrl,
+          name: "Together We Thrive Support Co | Home",
+          isPartOf: { "@id": websiteId },
+          about: { "@id": orgId },
+          inLanguage: "en-AU",
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": breadcrumbsId,
+          itemListElement: breadcrumbs.map((b, idx) => ({
+            "@type": "ListItem",
+            position: idx + 1,
+            name: b.name,
+            item: b.item,
+          })),
+        },
+      ],
+    };
+  }, []);
+
+  useEffect(() => {
+    const id = "twt-jsonld-home";
+    const existing = document.getElementById(id);
+    if (existing) existing.remove();
+
+    const script = document.createElement("script");
+    script.id = id;
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(schemaGraph);
+    document.head.appendChild(script);
+
+    return () => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    };
+  }, [schemaGraph]);
+}
+
 export default function Home() {
   useSeo({
-    title: "Together We Thrive Support Co | NDIS Disability Support",
+    title:
+      "Together We Thrive Support Co | Psychosocial Disability & Mental Health Support (NDIS)",
     description:
-      "Together We Thrive Support Co provides warm and respectful NDIS disability support across South Western Sydney, including in-home supports, personal care, and community participation.",
+      "Together We Thrive Support Co provides psychosocial disability support and mental health & wellbeing support as part of our NDIS support services in South Western Sydney — helping participants build routine, confidence, and community connection.",
   });
+
+  // ✅ JSON-LD injection (safe runtime origin)
+  useHomeJsonLdSchema();
 
   const reducedMotion = usePrefersReducedMotion();
 
@@ -38,7 +146,7 @@ export default function Home() {
       {/* HERO */}
       <div className={`hero ${reducedMotion ? "" : "hero-animate"}`}>
         <div className="hero-content">
-          {/* Subtle brand row */}
+          {/* Brand row */}
           <div className="hero-brand" aria-label="Together We Thrive Support Co">
             <img
               className="hero-brand-logo"
@@ -51,12 +159,20 @@ export default function Home() {
             </div>
           </div>
 
-          <h1>Warm, respectful NDIS disability support</h1>
+          <h1>Psychosocial disability support &amp; mental health wellbeing</h1>
 
           <p className="lead">
-            We support people with disability to live safely, confidently, and
-            independently. We keep communication clear and provide support at
-            your pace.
+            We support people living with <strong>psychosocial disability</strong>{" "}
+            (mental health support needs) with calm, practical{" "}
+            <strong>Mental Health &amp; Wellbeing Support</strong>. Our focus is
+            helping you build routine, confidence, and meaningful connection —
+            at your pace.
+          </p>
+
+          <p className="muted" style={{ marginTop: ".5rem" }}>
+            Supports are tailored to goals and NDIS funding, and may include help
+            with daily routines, appointments, community participation, and
+            skill-building for independence.
           </p>
 
           {/* CTA BUTTONS */}
@@ -70,16 +186,16 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Quick reassurance */}
+          {/* Local SEO reassurance */}
           <p className="muted hero-helper">
-            Based in <strong>South Western Sydney</strong> • Expanding across{" "}
+            Supporting <strong>South Western Sydney</strong> • Expanding across{" "}
             <strong>NSW</strong> as we grow
           </p>
 
-          {/* Key supports */}
+          {/* Key supports (mental health first) */}
           <div className="pill-row" aria-label="Key supports offered">
-            <span className="pill">In-home supports</span>
-            <span className="pill">Personal care</span>
+            <span className="pill">Mental Health &amp; Wellbeing Support</span>
+            <span className="pill">Psychosocial disability support</span>
             <span className="pill">Community participation</span>
           </div>
         </div>
@@ -92,90 +208,90 @@ export default function Home() {
         </div>
       </div>
 
-      {/* TRUST / REASSURANCE (no registration claim) */}
+      {/* TRUST / REASSURANCE */}
       <div className="trust-row" aria-label="Trust and service information">
         <div className="trust-card">
-          <h2>Clear & respectful communication</h2>
+          <h2>Recovery-focused, practical support</h2>
           <p className="muted">
-            We keep information simple and direct — helpful for participants,
-            families, and coordinators.
+            We offer calm, routine-based support that helps with planning,
+            motivation, and taking steady steps forward.
           </p>
         </div>
 
         <div className="trust-card">
-          <h2>Participant safety & dignity</h2>
+          <h2>Person-centred &amp; respectful</h2>
           <p className="muted">
-            Support is delivered with privacy, respect, and careful attention to
-            individual needs.
+            We listen first. Support is delivered with dignity, privacy, and
+            clear communication.
           </p>
         </div>
 
         <div className="trust-card">
-          <h2>NDIS support types</h2>
+          <h2>NDIS funding support options</h2>
           <p className="muted">
-            We can support <strong>self-managed</strong> and{" "}
-            <strong>plan-managed</strong> participants. (If you are NDIA-managed,
-            contact us and we’ll guide you on options.)
+            We support <strong>self-managed</strong> and{" "}
+            <strong>plan-managed</strong> participants. If you’re NDIA-managed,
+            contact us and we’ll guide you on options.
           </p>
         </div>
       </div>
 
-      {/* CONVERSION SECTION: "What do you need help with?" */}
+      {/* PRIMARY CARDS: psychosocial / wellbeing first */}
       <header className="page-header" style={{ marginTop: "1.5rem" }}>
-        <h2>How can we help you today?</h2>
+        <h2>Mental Health &amp; Wellbeing Support</h2>
         <p className="muted">
-          Choose what you need. We’ll respond with clear next steps.
+          Support that’s practical, calm, and focused on everyday progress.
         </p>
       </header>
 
       <div className="cards">
         <article className="service-card">
           <img
-            src="/images/inhome.jpg"
-            alt="Support worker assisting an older man using a walker at home"
+            src="/images/community.jpg"
+            alt="Two women enjoying coffee outdoors, smiling and talking together"
           />
           <div className="service-body">
-            <h3>Support at home</h3>
+            <h3>Connection &amp; community participation</h3>
             <p className="muted">
-              Help with daily routines, household tasks, and building
-              independence at home.
+              Gentle support to get out, rebuild confidence, and reconnect with
+              activities and people that matter.
             </p>
             <Link className="text-link" to="/services">
-              See in-home supports →
+              Explore community participation →
             </Link>
           </div>
         </article>
 
         <article className="service-card">
           <img
-            src="/images/community.jpg"
-            alt="Two women enjoying coffee outdoors, smiling and talking together"
+            src="/images/inhome.jpg"
+            alt="Support worker assisting an older man using a walker at home"
           />
           <div className="service-body">
-            <h3>Community participation</h3>
+            <h3>Routine, planning &amp; daily living support</h3>
             <p className="muted">
-              Support to go out, join activities, build confidence, and stay
-              connected.
+              Support with routines, meal planning, appointments, and organising
+              your day in a way that feels manageable.
             </p>
             <Link className="text-link" to="/services">
-              See community supports →
+              Explore daily living support →
             </Link>
           </div>
         </article>
 
         <article className="service-card">
-            <img
+          <img
             src="/images/personal-care.jpg"
             alt="Support worker assisting a participant with personal care"
           />
           <div className="service-body">
-            <h3>Personal care</h3>
+            <h3>In-home support &amp; personal care (as needed)</h3>
             <p className="muted">
-              Respectful support with hygiene, dressing, grooming, and daily
-              self-care — with dignity and privacy.
+              Respectful support at home to maintain wellbeing, safety, and
+              independence — always with dignity and privacy.
             </p>
             <Link className="text-link" to="/services">
-              See personal care →
+              Explore in-home supports →
             </Link>
           </div>
         </article>
@@ -191,8 +307,8 @@ export default function Home() {
         </div>
 
         <div className="contact-strip-actions">
-          <a className="btn ghost" href="tel:0400000000">
-            Call 0400 000 000
+          <a className="btn ghost" href={`tel:${PHONE.replace(/\s/g, "")}`}>
+            Call {PHONE}
           </a>
 
           <Link className="btn primary" to="/contact">
@@ -206,20 +322,26 @@ export default function Home() {
         <div className="card">
           <h2>Where we work</h2>
           <p className="muted">
-            We’re currently supporting people in{" "}
-            <strong>South Western Sydney</strong>. Our goal is to expand across{" "}
-            <strong>NSW</strong> as we grow.
+            We support participants across <strong>South Western Sydney</strong>{" "}
+            and are expanding across <strong>NSW</strong> as we grow.
           </p>
         </div>
 
         <div className="card">
           <h2>Who we support</h2>
           <ul className="list">
-            <li>NDIS participants</li>
-            <li>People with intellectual disabilities</li>
-            <li>People with cognitive impairments</li>
+            <li>
+              People living with <strong>psychosocial disability</strong> (mental
+              health support needs)
+            </li>
+            <li>NDIS participants seeking routine, confidence, and stability</li>
             <li>Families, carers, and support coordinators</li>
+            <li>People wanting stronger community connection and independence</li>
           </ul>
+          <p className="muted" style={{ marginTop: ".5rem" }}>
+            Supports are provided in line with NDIS guidelines and within the
+            scope of our registration.
+          </p>
         </div>
       </div>
     </section>
