@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://YOURDOMAIN.com/</loc></url>
-  <url><loc>https://YOURDOMAIN.com/about</loc></url>
-  <url><loc>https://YOURDOMAIN.com/how-we-help</loc></url>
-  <url><loc>https://YOURDOMAIN.com/services</loc></url>
-  <url><loc>https://YOURDOMAIN.com/contact</loc></url>
+  <url><loc>https://twt.net.au/.com/</loc></url>
+  <url><loc>https://twt.net.au/.com/about</loc></url>
+  <url><loc>https://twt.net.au/.com/how-we-help</loc></url>
+  <url><loc>https://twt.net.au/.com/services</loc></url>
+  <url><loc>https://twt.net.au/.com/contact</loc></url>
+  <url><loc>https://twt.net.au/.com/referral</loc></url>
 
-  <url><loc>https://YOURDOMAIN.com/services/personal-care</loc></url>
-  <url><loc>https://YOURDOMAIN.com/services/in-home</loc></url>
-  <url><loc>https://YOURDOMAIN.com/services/community</loc></url>
-  <url><loc>https://YOURDOMAIN.com/services/transport</loc></url>
-  <url><loc>https://YOURDOMAIN.com/services/skills</loc></url>
-  <url><loc>https://YOURDOMAIN.com/services/coordination</loc></url>
-  <url><loc>https://YOURDOMAIN.com/services/day-programs</loc></url>
+  <url><loc>https://twt.net.au/.com/services/personal-care</loc></url>
+  <url><loc>https://twt.net.au/.com/services/in-home</loc></url>
+  <url><loc>https://twt.net.au/.com/services/community</loc></url>
+  <url><loc>https://twt.net.au/.com/services/transport</loc></url>
+  <url><loc>https://twt.net.au/.com/services/skills</loc></url>
+  <url><loc>https://twt.net.au/.com/services/coordination</loc></url>
+  <url><loc>https://twt.net.au/.com/services/day-programs</loc></url>
 </urlset>

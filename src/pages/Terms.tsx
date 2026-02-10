@@ -1,5 +1,7 @@
 import { useSeo } from "../hooks/useSeo";
 
+const EMAIL = "info@twt.net.au";
+
 export default function Terms() {
   useSeo({
     title: "Terms of Use | Together We Thrive",
@@ -41,7 +43,7 @@ export default function Terms() {
         <h2>Contact</h2>
         <p className="muted">
           Email:{" "}
-          <a href="mailto:info@twt.com.au">info@twt.com.au</a>
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
         </p>
       </div>
     </section>

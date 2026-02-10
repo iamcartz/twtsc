@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSeo } from "../hooks/useSeo";
 import "../styles/Contact.css";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 const EMAIL = "info@twt.net.au";
-const PHONE = "0400 000 000"; // change later when ready
+const PHONE = "+61 433 883 614";
 
 const SERVICES = [
   "Not sure",
@@ -25,16 +26,9 @@ function usePrefersReducedMotion() {
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const onChange = () => setReduced(media.matches);
-
     setReduced(media.matches);
-
-    if (typeof media.addEventListener === "function") {
-      media.addEventListener("change", onChange);
-      return () => media.removeEventListener("change", onChange);
-    }
-
-    media.addListener(onChange);
-    return () => media.removeListener(onChange);
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
   }, []);
 
   return reduced;
@@ -51,9 +45,33 @@ export default function Contact() {
 
   const [errors, setErrors] = useState<string[]>([]);
   const [status, setStatus] = useState<"" | "success">("");
+  const [submitting, setSubmitting] = useState(false);
+
   const [activeMap, setActiveMap] = useState<LocationKey>("horsley");
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  /* 🔐 SAME AS REFERRAL: CSRF */
+  const [csrf, setCsrf] = useState("");
+  useEffect(() => {
+    fetch("/api/csrf.php")
+      .then((r) => r.json())
+      .then((j) => setCsrf(j?.csrf || ""));
+  }, []);
+
+  /* 🛡️ SAME AS REFERRAL: Turnstile */
+  const [turnstileToken, setTurnstileToken] = useState("");
+
+  /* animation / scroll target */
+  const statusRef = useRef<HTMLDivElement | null>(null);
+  const [tick, setTick] = useState(0);
+
+  function revealStatus() {
+    setTick((t) => t + 1);
+    requestAnimationFrame(() => {
+      statusRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setErrors([]);
     setStatus("");
@@ -61,44 +79,72 @@ export default function Contact() {
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    // Honeypot field (spam trap)
-    const company = (data.get("company") || "").toString();
-    if (company) return;
+    /* honeypot */
+    if (data.get("company")) return;
 
-    const name = (data.get("name") || "").toString().trim();
-    const email = (data.get("email") || "").toString().trim();
-    const message = (data.get("message") || "").toString().trim();
-    const service = (data.get("service") || "Not sure").toString();
-
-    const newErrors: string[] = [];
-    if (!name) newErrors.push("Please enter your name.");
-    if (!email || !/^\S+@\S+\.\S+$/.test(email))
-      newErrors.push("Please enter a valid email address.");
-    if (!message) newErrors.push("Please enter a short message.");
-
-    if (newErrors.length > 0) {
-      setErrors(newErrors);
+    if (!csrf) {
+      setErrors(["Security token not ready. Please refresh the page."]);
+      revealStatus();
       return;
     }
 
-    // For now we only simulate sending (backend later)
-    console.log({ name, email, service, message });
+    if (!turnstileToken) {
+      setErrors(["Please complete the security check."]);
+      revealStatus();
+      return;
+    }
 
-    setStatus("success");
-    form.reset();
+    const payload = {
+      name: (data.get("name") || "").toString().trim(),
+      email: (data.get("email") || "").toString().trim(),
+      service: (data.get("service") || "Not sure").toString(),
+      message: (data.get("message") || "").toString().trim(),
+
+      /* SAME SECURITY FIELDS */
+      csrf,
+      turnstileToken,
+      company: "",
+    };
+
+    setSubmitting(true);
+
+    try {
+      const res = await fetch("/api/contact.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const out = await res.json();
+
+      if (!res.ok) {
+        setErrors(out?.errors || ["Something went wrong."]);
+        revealStatus();
+        return;
+      }
+
+      setStatus("success");
+      setErrors([]);
+      setTurnstileToken("");
+      setTick((t) => t + 1);
+      form.reset();
+
+      revealStatus();
+    } catch {
+      setErrors(["Network error. Please try again."]);
+      revealStatus();
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
     <main className="page" id="main">
-      {/* HERO (uniform with other pages) */}
+      {/* HERO */}
       <div className={`hero ${reducedMotion ? "" : "hero-animate"}`}>
         <div className="hero-content">
-          <div className="hero-brand" aria-label="Together We Thrive Support Co">
-            <img
-              className="hero-brand-logo"
-              src="/logo.jpeg"
-              alt="Together We Thrive Support Co logo"
-            />
+          <div className="hero-brand">
+            <img className="hero-brand-logo" src="/logo.jpeg" alt="Together We Thrive logo" />
             <div className="hero-brand-text">
               <span className="hero-brand-title">Together We Thrive</span>
               <span className="hero-brand-subtitle">Support Co</span>
@@ -108,210 +154,149 @@ export default function Contact() {
           <h1>Contact Us</h1>
 
           <p className="lead">
-            Call or send a message. We will respond as soon as possible.
+            Call or send a message. We’ll respond as soon as possible.
           </p>
 
-          <div className="cta-row" aria-label="Contact actions">
+          <div className="cta-row">
             <a className="btn ghost" href={`tel:${PHONE.replace(/\s/g, "")}`}>
-              📞 Call {PHONE}
+              Call {PHONE}
             </a>
             <a className="btn primary" href={`mailto:${EMAIL}`}>
-              ✉️ Email us
+              Email us
             </a>
-          </div>
-
-          <p className="muted hero-helper">
-            Based in <strong>South Western Sydney</strong> • Expanding across{" "}
-            <strong>NSW</strong> as we grow
-          </p>
-
-          <div className="pill-row" aria-label="Quick contact topics">
-            <span className="pill">New enquiries</span>
-            <span className="pill">NDIS support questions</span>
-            <span className="pill">Psychosocial support</span>
           </div>
         </div>
 
         <div className="hero-image">
-          <img
-            src="/images/contact-hero.png"
-            alt="A friendly support worker speaking with a participant"
-            loading="eager"
-          />
+          <img src="/images/contact-hero.png" alt="Friendly support worker" />
         </div>
       </div>
-
-      {/* MAIN CONTENT */}
       <header className="page-header" style={{ marginTop: "1.25rem" }}>
         <h2>How would you like to contact us?</h2>
-        <p className="muted">
-          Choose the option that feels easiest. You can call, email, or send an enquiry form.
-        </p>
+        <p className="muted">Choose the option that feels easiest. You can call, email, or send an enquiry form.</p>
       </header>
-
+      
       <div className="contact-grid">
-        {/* LEFT SIDE */}
+        {/* LEFT */}
         <div className="contact-card">
           <h2>📍 Get in touch</h2>
 
-          <p>
-            <strong>Phone:</strong>{" "}
-            <a
-              href={`tel:${PHONE.replace(/\s/g, "")}`}
-              aria-label={`Call ${PHONE}`}
-            >
-              {PHONE}
-            </a>
-          </p>
-
-          <p>
-            <strong>Email:</strong>{" "}
-            <a href={`mailto:${EMAIL}`} aria-label={`Email ${EMAIL}`}>
-              {EMAIL}
-            </a>
-          </p>
+          <p><strong>Phone:</strong> <a href={`tel:${PHONE}`}>{PHONE}</a></p>
+          <p><strong>Email:</strong> <a href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
 
           <p className="muted">
-            We support participants across South Western Sydney, with plans to expand across NSW.
+            Supporting South Western Sydney, expanding across NSW.
           </p>
 
-          <hr className="contact-divider" />
+          <hr />
 
-          <h3>🏢 Our Offices</h3>
-
-          <div
-            className="contact-map-tabs"
-            role="tablist"
-            aria-label="Office locations"
-          >
+          <div className="contact-map-tabs">
             <button
-              type="button"
               className={`btn ghost ${activeMap === "horsley" ? "is-active" : ""}`}
               onClick={() => setActiveMap("horsley")}
-              role="tab"
-              aria-selected={activeMap === "horsley"}
             >
               Horsley Park
             </button>
-
             <button
-              type="button"
               className={`btn ghost ${activeMap === "fivedock" ? "is-active" : ""}`}
               onClick={() => setActiveMap("fivedock")}
-              role="tab"
-              aria-selected={activeMap === "fivedock"}
             >
               Five Dock
             </button>
           </div>
 
           {activeMap === "horsley" && (
-            <>
-              <p>
-                <strong>Horsley Park</strong>
-                <br />
-                Suite 1/1840 The Horsley Drive
-                <br />
-                Horsley Park NSW
-              </p>
-
-              <div className="map-embed">
-                <iframe
-                  title="Horsley Park Map"
-                  src="https://www.google.com/maps?q=Suite%201/1840%20The%20Horsley%20Drive%20Horsley%20Park%20NSW&output=embed"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-            </>
+            <div className="map-embed">
+              <iframe
+                title="Horsley Park Map"
+                src="https://www.google.com/maps?q=Suite%201/1840%20The%20Horsley%20Drive%20Horsley%20Park%20NSW&output=embed"
+                loading="lazy"
+              />
+            </div>
           )}
 
           {activeMap === "fivedock" && (
-            <>
-              <p>
-                <strong>Five Dock</strong>
-                <br />
-                Suite 420/49 Queens Road
-                <br />
-                Five Dock NSW
-              </p>
-
-              <div className="map-embed">
-                <iframe
-                  title="Five Dock Map"
-                  src="https://www.google.com/maps?q=Suite%20420/49%20Queens%20Road%20Five%20Dock%20NSW&output=embed"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-            </>
+            <div className="map-embed">
+              <iframe
+                title="Five Dock Map"
+                src="https://www.google.com/maps?q=Suite%20420/49%20Queens%20Road%20Five%20Dock%20NSW&output=embed"
+                loading="lazy"
+              />
+            </div>
           )}
         </div>
 
-        {/* RIGHT SIDE */}
+        {/* RIGHT */}
         <div className="contact-card">
           <h2>📝 Send an enquiry</h2>
 
-          <div className="form-status" aria-live="polite" aria-atomic="true" role="status">
+          <div
+            ref={statusRef}
+            className="form-status"
+            data-tick={tick}
+            aria-live="polite"
+            role="status"
+          >
             {errors.length > 0 && (
-              <ul className="error-list">
-                {errors.map((err, i) => (
-                  <li key={i}>{err}</li>
-                ))}
+              <ul className="error-list form-pop">
+                {errors.map((e, i) => <li key={i}>{e}</li>)}
               </ul>
             )}
 
             {status === "success" && (
-              <p className="contact-success">
-                Thank you! Your message has been sent successfully.
+              <p className="contact-success form-pop">
+                Thank you! Your message has been sent.
               </p>
             )}
           </div>
 
           <form onSubmit={handleSubmit} noValidate>
-            {/* Honeypot */}
-            <input
-              type="text"
-              name="company"
-              tabIndex={-1}
-              autoComplete="off"
-              style={{ display: "none" }}
-            />
+            <input type="text" name="company" style={{ display: "none" }} />
 
-            <label htmlFor="name">
+            <label>
               Name
-              <input id="name" name="name" type="text" autoComplete="name" />
+              <input name="name" />
             </label>
 
-            <label htmlFor="email">
+            <label>
               Email
-              <input id="email" name="email" type="email" autoComplete="email" />
+              <input name="email" type="email" />
             </label>
 
-            <label htmlFor="service">
+            <label>
               Preferred service
-              <select id="service" name="service" defaultValue="Not sure">
+              <select name="service">
                 {SERVICES.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
+                  <option key={s}>{s}</option>
                 ))}
               </select>
             </label>
 
-            <label htmlFor="message">
+            <label>
               Message
-              <textarea id="message" name="message" rows={5} />
+              <textarea name="message" rows={5} />
             </label>
 
-            <button className="btn primary" type="submit">
-              Send enquiry
+            {/* SAME TURNSTILE AS REFERRAL */}
+            <Turnstile
+              siteKey="0x4AAAAAACZ-mU6ox2cWGFfP"
+              onSuccess={(t) => setTurnstileToken(t)}
+              onExpire={() => setTurnstileToken("")}
+              onError={() => setTurnstileToken("")}
+            />
+
+            <button
+              className="btn primary"
+              type="submit"
+              disabled={submitting || !turnstileToken}
+            >
+              {submitting ? "Sending..." : "Send enquiry"}
             </button>
 
             <p className="muted contact-helper">
-              Prefer not to type? You can call us instead.
-              <Link className="text-link" to="/services">
-                {" "}View services →
+              Prefer to browse?{" "}
+              <Link to="/services" className="text-link">
+                View services →
               </Link>
             </p>
           </form>

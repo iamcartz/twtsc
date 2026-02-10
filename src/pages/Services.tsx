@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { useMemo } from "react";
 import type { ReactNode } from "react";
 
 import services from "../data/services.json";
@@ -115,25 +114,6 @@ export default function Services() {
             alt="Support worker with participant in a welcoming community setting"
           />
         </div>
-      </section>
-
-      {/* MENTAL HEALTH INTRO */}
-      <section
-        className="card"
-        style={{ marginTop: "1.25rem" }}
-        aria-label="Mental health and psychosocial disability support"
-      >
-        <h2>🧠 Psychosocial Disability &amp; Mental Wellbeing</h2>
-        <p className="muted" style={{ marginTop: ".35rem" }}>
-          We support people who experience mental health challenges to build routine,
-          confidence, and community connection — at your pace, with calm and respectful support.
-        </p>
-        <ul className="list" style={{ marginTop: ".5rem" }}>
-          <li>Support with daily routines and planning</li>
-          <li>Confidence building for community access</li>
-          <li>Step-by-step support to reach personal goals</li>
-          <li>Support for families and carers (with consent)</li>
-        </ul>
       </section>
 
       {/* SERVICES GRID */}

@@ -1,4 +1,30 @@
 [
+   {
+    "id": "psychosocial",
+    "title": "Psychosocial Disability & Mental Wellbeing",
+    "category": "Capacity Building",
+    "summary": "Calm, practical support for mental health and psychosocial disability — with clear steps and support at your pace.",
+    "bullets": [
+      "Support with daily routines and planning",
+      "Confidence building for community access",
+      "Step-by-step support to reach personal goals",
+      "Support attending appointments (when needed)",
+      "Support with coping strategies and wellbeing routines",
+      "Support for families and carers (with consent)"
+    ],
+    "icon": "people",
+    "image": "/images/services/psychosocial.png",
+    "faqs": [
+      {
+        "q": "Can you support people with anxiety or depression?",
+        "a": "Yes. We provide calm, respectful support and work at your pace. We can start small and build confidence over time."
+      },
+      {
+        "q": "Do you provide counselling or therapy?",
+        "a": "We are not a clinical therapy service. We provide practical NDIS supports that help with routines, confidence, and daily life."
+      }
+    ]
+  },
   {
     "id": "personal-care",
     "title": "Personal Care & Daily Living Support",
@@ -13,7 +39,7 @@
       "Support at home and in the community"
     ],
     "icon": "care",
-    "image": "/images/services/personal-care.jpg",
+    "image": "/images/services/personal-care.png",
     "faqs": [
       {
         "q": "Do you support participants with complex needs?",
@@ -38,7 +64,7 @@
       "Support to maintain a safe living environment"
     ],
     "icon": "home",
-    "image": "/images/services/in-home.jpg",
+    "image": "/images/services/in-home.png",
     "faqs": [
       {
         "q": "What household tasks can you help with?",
@@ -63,7 +89,7 @@
       "Building social skills and confidence"
     ],
     "icon": "people",
-    "image": "/images/services/community.jpg",
+    "image": "/images/services/community.png",
     "faqs": [
       {
         "q": "Can I choose the activities?",
@@ -87,7 +113,7 @@
       "Support using public transport"
     ],
     "icon": "car",
-    "image": "/images/services/transport.jpg",
+    "image": "/images/services/transport.png",
     "faqs": [
       {
         "q": "Do you provide transport and support together?",
@@ -112,7 +138,7 @@
       "Communication and social skills"
     ],
     "icon": "skills",
-    "image": "/images/services/life-skills.jpg",
+    "image": "/images/services/life-skills.png",
     "faqs": [
       {
         "q": "How do you set goals?",
@@ -137,7 +163,7 @@
     ],
     "note": "Optional service: available depending on staffing and participant needs.",
     "icon": "plan",
-    "image": "/images/services/support-coordination.jpg",
+    "image": "/images/services/support-coordination.png",
     "faqs": [
       {
         "q": "Is Support Coordination always available?",
@@ -161,7 +187,7 @@
     ],
     "note": "Coming soon: we plan to introduce day programs once we are registered and have enough participants.",
     "icon": "clock",
-    "image": "/images/services/day-programs.jpg",
+    "image": "/images/services/day-programs.png",
     "faqs": [
       {
         "q": "When will day programs start?",

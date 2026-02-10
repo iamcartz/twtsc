@@ -1,3 +1,10 @@
+/* =========================
+   BODY LOCK (mobile menu)
+========================= */
+body.nav-lock {
+  overflow: hidden;
+}
+
 /* Header wrapper */
 .site-header {
   position: sticky;
@@ -5,6 +12,12 @@
   z-index: 1000;
   background: #ffffff;
   border-bottom: 1px solid var(--border);
+}
+
+/* allow dropdown to escape sticky header */
+.site-header,
+.nav {
+  overflow: visible;
 }
 
 /* Skip link (keyboard accessibility) */
@@ -211,63 +224,65 @@
   color: #ffffff;
 }
 
-/* Optional: subtle pill for Referral */
-.nav-link-pill {
-  border: 1px solid rgba(15, 118, 110, 0.18);
-  background: rgba(15, 118, 110, 0.06);
-}
-.nav-link-pill:hover {
-  background: rgba(15, 118, 110, 0.10);
-  border-color: rgba(15, 118, 110, 0.28);
-}
-.nav-link-pill.active {
-  border-color: rgba(15, 118, 110, 0.35);
-}
-
-/* Focus ring for keyboard users */
+/* Focus ring */
 .nav-link:focus,
 .nav-mega-trigger:focus,
 .topbar-link:focus,
 .topbar-cta:focus,
-.nav-mega-all:focus {
+.nav-mega-all:focus,
+.nav-toggle:focus,
+.mobile-actions-btn:focus {
   outline: 3px solid rgba(20, 184, 166, 0.35);
   outline-offset: 3px;
 }
 
-/* Responsive */
-@media (max-width: 700px) {
-  .topbar-inner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+/* ================================
+   HAMBURGER BUTTON
+================================ */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid rgba(31, 41, 55, 0.14);
+  border-radius: 12px;
+  padding: 0.55rem 0.65rem;
+  cursor: pointer;
 }
 
-@media (max-width: 980px) {
-  .nav {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-  .nav-list {
-    justify-content: flex-start;
-  }
+.nav-toggle-bars {
+  width: 22px;
+  height: 16px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nav-toggle-bars span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #111827;
+  border-radius: 999px;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+/* optional: animate into X when open */
+.nav-toggle-bars.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle-bars.is-open span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle-bars.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ================================
-   MEGA MENU (React controlled)
+   MEGA MENU
 ================================ */
-
-/* allow dropdown to escape sticky header */
-.site-header,
-.nav {
-  overflow: visible;
-}
-
-/* wrapper */
 .nav-mega {
   position: relative;
 }
 
-/* trigger button */
 .nav-mega-trigger {
   display: inline-flex;
   align-items: center;
@@ -277,16 +292,18 @@
   cursor: pointer;
 }
 
-/* caret */
 .nav-mega-caret {
   font-size: 0.85rem;
   opacity: 0.85;
+  display: inline-block;
+  transition: transform 160ms ease;
 }
 
-/* ================================
-   MENU CONTAINER (closed by default)
-================================ */
+.nav-mega.is-open .nav-mega-caret {
+  transform: rotate(180deg);
+}
 
+/* Desktop menu container */
 .nav-mega-menu {
   position: absolute;
   top: calc(100% + 12px);
@@ -300,31 +317,25 @@
   border: 1px solid var(--border);
   border-radius: 16px;
   box-shadow: var(--shadow);
+
   overflow: hidden;
   z-index: 5000;
 
   opacity: 0;
   pointer-events: none;
   transition: opacity 160ms ease, transform 160ms ease;
+
+  display: grid;
+  grid-template-columns: 1fr 300px;
 }
 
-/* OPEN STATE — only when React adds .is-open */
 .nav-mega.is-open .nav-mega-menu {
   opacity: 1;
   transform: translate(-50%, 0);
   pointer-events: auto;
 }
 
-/* layout: main + side */
-.nav-mega-menu {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-}
-
-/* ================================
-   MAIN AREA
-================================ */
-
+/* MAIN AREA */
 .nav-mega-main {
   padding: 1rem;
 }
@@ -340,7 +351,6 @@
   gap: 0.65rem;
 }
 
-/* service row */
 .nav-mega-item {
   display: grid;
   grid-template-columns: 44px 1fr;
@@ -366,7 +376,6 @@
   outline: none;
 }
 
-/* icon circle */
 .nav-mega-ico {
   width: 40px;
   height: 40px;
@@ -379,14 +388,12 @@
   border: 1px solid rgba(15, 118, 110, 0.16);
   flex: 0 0 40px;
 }
-
 .nav-mega-ico svg {
   width: 20px;
   height: 20px;
   fill: var(--teal);
 }
 
-/* text */
 .nav-mega-text {
   min-width: 0;
   display: grid;
@@ -411,7 +418,6 @@
   overflow: hidden;
 }
 
-/* bottom link */
 .nav-mega-bottom {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
@@ -425,15 +431,11 @@
   font-weight: 900;
   cursor: pointer;
 }
-
 .nav-mega-all:hover {
   text-decoration: underline;
 }
 
-/* ================================
-   SIDE PANEL
-================================ */
-
+/* SIDE PANEL */
 .nav-mega-side {
   background: rgba(15, 118, 110, 0.08);
   border-left: 1px solid rgba(15, 118, 110, 0.14);
@@ -463,7 +465,6 @@
   color: var(--text);
   cursor: pointer;
 }
-
 .nav-mega-side-list button:hover {
   color: var(--teal);
   text-decoration: underline;
@@ -476,30 +477,148 @@
   font-size: 0.92rem;
 }
 
-/* ================================
-   MOBILE
-================================ */
+/* Referral CTA */
+.nav-link-cta {
+  background: var(--teal);
+  color: #ffffff !important;
+  font-weight: 900;
+}
+.nav-link-cta:hover {
+  filter: brightness(0.95);
+  background: var(--teal);
+}
+.nav-link-cta.active {
+  background: var(--teal);
+  color: #ffffff;
+}
 
-@media (max-width: 980px) {
-  .nav-mega-menu {
-    position: static;
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .nav-mega-menu,
+  .nav-mega-caret,
+  .nav-toggle-bars span {
+    transition: none !important;
+  }
+}
+
+/* ================================
+   MOBILE RESPONSIVE
+================================ */
+@media (max-width: 700px) {
+  .topbar-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 1rem;
+    gap: 0.6rem;
+  }
+  .topbar-right {
     width: 100%;
-    min-width: 0;
-    left: auto;
-    transform: none;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+}
+
+/* Mobile nav panel + animations */
+@media (max-width: 980px) {
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* brand + burger row */
+  .nav {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+
+  /* Mobile dropdown panel (animated) */
+  .nav-list {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.35rem;
+
+    display: block;
+    overflow: hidden;
+
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-6px);
+
+    padding-top: 0;
+    margin-top: 0;
+    border-top: 1px solid rgba(31, 41, 55, 0.10);
+
+    transition: max-height 220ms ease, opacity 180ms ease, transform 180ms ease;
+  }
+
+  .nav-list.is-open {
+    max-height: 70vh; /* panel height */
+    opacity: 1;
+    transform: translateY(0);
+    padding-top: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .nav-list > li {
+    width: 100%;
+  }
+
+  .nav-link,
+  .nav-mega-trigger {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* MOBILE mega menu becomes in-flow panel */
+  .nav-mega-menu {
+    position: static !important;
+    left: auto !important;
+    transform: none !important;
+
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
 
     grid-template-columns: 1fr;
     margin-top: 0.4rem;
 
-    display: none;
+    /* IMPORTANT:
+       desktop has overflow:hidden which blocks scrolling on mobile
+       so we change it here */
+    overflow: visible !important;
+
+    opacity: 1;
+    pointer-events: auto;
+
+    /* slide open animation */
+    max-height: 0;
     opacity: 0;
-    pointer-events: none;
+    transform: translateY(-6px);
+    transition: max-height 220ms ease, opacity 180ms ease, transform 180ms ease;
+
+    border-radius: 16px;
   }
 
   .nav-mega.is-open .nav-mega-menu {
-    display: grid;
+    max-height: 70vh;
     opacity: 1;
-    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  /* Make ONLY the main list scroll (prevents disappearing while swiping) */
+  .nav-mega-main {
+    max-height: 45vh; /* scroll area */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.9rem;
   }
 
   .nav-mega-cols {
@@ -509,47 +628,82 @@
   .nav-mega-side {
     border-left: 0;
     border-top: 1px solid rgba(15, 118, 110, 0.14);
+    padding: 0.9rem;
+  }
+
+  /* Give space so sticky bottom bar doesn't cover content */
+  .nav-list.is-open {
+    padding-bottom: 4.25rem;
   }
 }
 
-/* ===== Upgrades: animation + caret rotation ===== */
-
-.nav-mega.is-open .nav-mega-caret {
-  transform: rotate(180deg);
+/* ================================
+   MOBILE STICKY ACTION BAR
+================================ */
+.mobile-actions {
+  display: none;
 }
 
-.nav-mega-caret {
-  display: inline-block;
-  transition: transform 160ms ease;
-}
+@media (max-width: 980px) {
+  .mobile-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
 
-/* smooth open/close */
-.nav-mega-menu {
-  transform-origin: top center;
-}
+    position: fixed;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
 
-/* reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .nav-mega-menu,
-  .nav-mega-caret {
-    transition: none !important;
+    z-index: 2000;
+
+    padding: 0.6rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(31, 41, 55, 0.14);
+    box-shadow: var(--shadow);
+
+    backdrop-filter: blur(10px);
   }
-}
 
-/* Referral CTA in main nav — match topbar Enquire */
-.nav-link-cta {
-  background: var(--teal);
-  color: #ffffff !important;
-  font-weight: 900;
-}
+  .mobile-actions-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
 
-.nav-link-cta:hover {
-  filter: brightness(0.95);
-  background: var(--teal);
-}
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 118, 110, 0.18);
 
-/* Keep active state consistent */
-.nav-link-cta.active {
-  background: var(--teal);
-  color: #ffffff;
+    background: rgba(15, 118, 110, 0.06);
+    color: var(--text);
+    font-weight: 900;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .mobile-actions-btn.primary {
+    background: var(--teal);
+    color: #ffffff;
+    border-color: rgba(15, 118, 110, 0.25);
+  }
+
+  .mobile-actions-btn:hover {
+    filter: brightness(0.98);
+  }
+
+  .mobile-actions-ico {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-actions-ico svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
 }

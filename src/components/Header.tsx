@@ -2,6 +2,9 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import services from "../data/services.json";
 
+const EMAIL = "info@twt.net.au";
+const PHONE = "+61 433 883 614";
+
 type Service = {
   id: string;
   title: string;
@@ -67,10 +70,12 @@ export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
 
-  const liRef = useRef<HTMLLIElement | null>(null);
-  const itemRefs = useRef<HTMLButtonElement[]>([]);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const servicesLiRef = useRef<HTMLLIElement | null>(null);
+  const mobileToggleRef = useRef<HTMLButtonElement | null>(null);
 
   const items = (services as Service[]) ?? [];
   const servicesActive = location.pathname.startsWith("/services");
@@ -80,110 +85,91 @@ export default function Header() {
     return { colA: items.slice(0, half), colB: items.slice(half) };
   }, [items]);
 
-  const closeMenu = () => setServicesOpen(false);
+  function closeAll() {
+    setServicesOpen(false);
+    setMobileOpen(false);
+  }
+
+  function closeServices() {
+    setServicesOpen(false);
+  }
 
   // Close on route change
   useEffect(() => {
-    closeMenu();
+    closeAll();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
-  // Click outside closes
+  // ESC closes menus
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key !== "Escape") return;
+      if (mobileOpen || servicesOpen) {
+        e.preventDefault();
+        closeAll();
+        mobileToggleRef.current?.focus();
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen, servicesOpen]);
+
+  // Click outside closes (mobile menu + services menu)
   useEffect(() => {
     function onDocDown(e: MouseEvent) {
-      if (!servicesOpen) return;
       const t = e.target as Node;
-      if (liRef.current && !liRef.current.contains(t)) closeMenu();
+
+      if (servicesOpen && servicesLiRef.current && !servicesLiRef.current.contains(t)) {
+        closeServices();
+      }
+
+      if (mobileOpen && headerRef.current && !headerRef.current.contains(t)) {
+        setMobileOpen(false);
+        setServicesOpen(false);
+      }
     }
     document.addEventListener("mousedown", onDocDown);
     return () => document.removeEventListener("mousedown", onDocDown);
-  }, [servicesOpen]);
+  }, [mobileOpen, servicesOpen]);
 
-  // Focus first item when opened
+  // Body scroll lock when mobile menu open
   useEffect(() => {
-    if (!servicesOpen) return;
-    window.requestAnimationFrame(() => {
-      itemRefs.current[0]?.focus();
-    });
-  }, [servicesOpen]);
-
-  // Navigate on pointer down so it still fires even if menu closes
-  function goOnPointerDown(e: React.PointerEvent, to: string) {
-    e.preventDefault();
-    e.stopPropagation();
-    navigate(to);
-    closeMenu();
-  }
-
-  // Keyboard navigation inside mega menu
-  function onMegaKeyDown(e: React.KeyboardEvent) {
-    if (!servicesOpen) return;
-
-    const allowed = [
-      "ArrowDown",
-      "ArrowUp",
-      "ArrowLeft",
-      "ArrowRight",
-      "Home",
-      "End",
-      "Escape",
-      "Tab",
-    ];
-    if (!allowed.includes(e.key)) return;
-
-    const list = itemRefs.current.filter(Boolean);
-    const active = document.activeElement as HTMLElement | null;
-    const idx = list.findIndex((el) => el === active);
-
-    if (e.key === "Escape") {
-      e.preventDefault();
-      closeMenu();
-      (liRef.current?.querySelector(".nav-mega-trigger") as HTMLButtonElement | null)?.focus();
+    if (!mobileOpen) {
+      document.body.classList.remove("nav-lock");
       return;
     }
+    document.body.classList.add("nav-lock");
+    return () => document.body.classList.remove("nav-lock");
+  }, [mobileOpen]);
 
-    if (e.key === "Tab") return; // allow normal tab
+  // If mobile menu closes, also close services
+  useEffect(() => {
+    if (!mobileOpen) setServicesOpen(false);
+  }, [mobileOpen]);
 
-    e.preventDefault();
-
-    const cols = 2;
-    const rows = Math.ceil(list.length / cols);
-    const row = idx >= 0 ? Math.floor(idx / cols) : 0;
-    const col = idx >= 0 ? idx % cols : 0;
-
-    const toIndex = (r: number, c: number) => r * cols + c;
-
-    let next = idx >= 0 ? idx : 0;
-
-    switch (e.key) {
-      case "ArrowDown": {
-        const r = Math.min(rows - 1, row + 1);
-        next = Math.min(list.length - 1, toIndex(r, col));
-        break;
-      }
-      case "ArrowUp": {
-        const r = Math.max(0, row - 1);
-        next = Math.min(list.length - 1, toIndex(r, col));
-        break;
-      }
-      case "ArrowRight":
-        next = Math.min(list.length - 1, idx >= 0 ? idx + 1 : 0);
-        break;
-      case "ArrowLeft":
-        next = Math.max(0, idx >= 0 ? idx - 1 : 0);
-        break;
-      case "Home":
-        next = 0;
-        break;
-      case "End":
-        next = list.length - 1;
-        break;
-    }
-
-    list[next]?.focus();
+  // Navigate helper (tap-safe)
+  function go(to: string) {
+    navigate(to);
+    closeAll();
   }
 
+  function toggleServices() {
+    setServicesOpen((v) => !v);
+  }
+
+  function toggleMobile() {
+    setMobileOpen((v) => {
+      const next = !v;
+      if (next) setServicesOpen(false);
+      return next;
+    });
+  }
+
+  const telHref = `tel:${PHONE.replace(/\s/g, "")}`;
+  const mailHref = `mailto:${EMAIL}`;
+
   return (
-    <header className="site-header">
+    <header className="site-header" ref={headerRef}>
       <a className="skip-link" href="#main-content">
         Skip to main content
       </a>
@@ -192,22 +178,22 @@ export default function Header() {
       <div className="topbar" role="region" aria-label="Contact information">
         <div className="topbar-inner">
           <div className="topbar-left">
-            <a className="topbar-link" href="tel:0400000000">
+            <a className="topbar-link" href={telHref}>
               <span className="topbar-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.36 2.3.55 3.6.55a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.1 21 3 13.9 3 5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.2.2 2.5.6 3.6a1 1 0 0 1-.25 1L6.6 10.8z" />
                 </svg>
               </span>
-              <span>0400 000 000</span>
+              <span>{PHONE}</span>
             </a>
 
-            <a className="topbar-link" href="mailto:info@twt.com.au">
+            <a className="topbar-link" href={mailHref}>
               <span className="topbar-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
-                  <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
+                  <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a1.999 1.999 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
                 </svg>
               </span>
-              <span>info@twt.com.au</span>
+              <span>{EMAIL}</span>
             </a>
           </div>
 
@@ -247,7 +233,24 @@ export default function Header() {
           </span>
         </NavLink>
 
-        <ul className="nav-list">
+        {/* Hamburger */}
+        <button
+          ref={mobileToggleRef}
+          type="button"
+          className="nav-toggle"
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="primary-nav"
+          onClick={toggleMobile}
+        >
+          <span className={`nav-toggle-bars ${mobileOpen ? "is-open" : ""}`} aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </span>
+        </button>
+
+        <ul id="primary-nav" className={`nav-list ${mobileOpen ? "is-open" : ""}`}>
           <li>
             <NavLink to="/" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")} end>
               Home
@@ -260,7 +263,7 @@ export default function Header() {
             </NavLink>
           </li>
 
-          <li className={`nav-mega ${servicesOpen ? "is-open" : ""}`} ref={liRef}>
+          <li className={`nav-mega ${servicesOpen ? "is-open" : ""}`} ref={servicesLiRef}>
             <button
               type="button"
               className={servicesActive ? "nav-link active nav-mega-trigger" : "nav-link nav-mega-trigger"}
@@ -268,51 +271,50 @@ export default function Header() {
               aria-expanded={servicesOpen}
               onClick={(e) => {
                 e.stopPropagation();
-                setServicesOpen((v) => !v);
+                toggleServices();
               }}
             >
               Services <span className="nav-mega-caret" aria-hidden="true">▾</span>
             </button>
 
-            <div className="nav-mega-menu" role="menu" aria-label="Services menu" onKeyDown={onMegaKeyDown}>
+            <div className="nav-mega-menu" role="menu" aria-label="Services menu">
               <div className="nav-mega-main">
+                {/* ✅ NEW: Mobile-only top "View all services" */}
+                <button
+                  type="button"
+                  className="nav-mega-all nav-mega-all-top"
+                  onClick={() => go("/services")}
+                >
+                  View all services →
+                </button>
+
                 <div className="nav-mega-cols">
                   {[colA, colB].map((col, colIndex) => (
                     <div className="nav-mega-col" key={colIndex}>
-                      {col.map((s, i) => {
-                        const globalIndex = colIndex === 0 ? i * 2 : i * 2 + 1;
-
-                        return (
-                          <button
-                            key={s.id}
-                            type="button"
-                            className="nav-mega-item"
-                            role="menuitem"
-                            onPointerDown={(e) => goOnPointerDown(e, `/services/${s.id}`)}
-                            ref={(el) => {
-                              if (el) itemRefs.current[globalIndex] = el;
-                            }}
-                          >
-                            <span className="nav-mega-ico" aria-hidden="true">
-                              <ServiceIcon id={s.id} />
-                            </span>
-                            <span className="nav-mega-text">
-                              <span className="nav-mega-title">{s.title}</span>
-                              {s.summary ? <span className="nav-mega-desc">{s.summary}</span> : null}
-                            </span>
-                          </button>
-                        );
-                      })}
+                      {col.map((s) => (
+                        <button
+                          key={s.id}
+                          type="button"
+                          className="nav-mega-item"
+                          role="menuitem"
+                          onClick={() => go(`/services/${s.id}`)}
+                        >
+                          <span className="nav-mega-ico" aria-hidden="true">
+                            <ServiceIcon id={s.id} />
+                          </span>
+                          <span className="nav-mega-text">
+                            <span className="nav-mega-title">{s.title}</span>
+                            {s.summary ? <span className="nav-mega-desc">{s.summary}</span> : null}
+                          </span>
+                        </button>
+                      ))}
                     </div>
                   ))}
                 </div>
 
+                {/* Desktop bottom link stays */}
                 <div className="nav-mega-bottom">
-                  <button
-                    type="button"
-                    className="nav-mega-all"
-                    onPointerDown={(e) => goOnPointerDown(e, "/services")}
-                  >
+                  <button type="button" className="nav-mega-all" onClick={() => go("/services")}>
                     View all services →
                   </button>
                 </div>
@@ -321,45 +323,23 @@ export default function Header() {
               <aside className="nav-mega-side" aria-label="Helpful links">
                 <h3 className="nav-mega-side-title">Helpful Links</h3>
                 <ul className="nav-mega-side-list">
-                  <li>
-                    <button type="button" onPointerDown={(e) => goOnPointerDown(e, "/about")}>
-                      About Us
-                    </button>
-                  </li>
-                  <li>
-                    <button type="button" onPointerDown={(e) => goOnPointerDown(e, "/referral")}>
-                      Referral
-                    </button>
-                  </li>
-
-                  <li>
-                    <button type="button" onPointerDown={(e) => goOnPointerDown(e, "/how-we-help")}>
-                      How We Help
-                    </button>
-                  </li>
-                  <li>
-                    <button type="button" onPointerDown={(e) => goOnPointerDown(e, "/contact")}>
-                      Enquire / Contact
-                    </button>
-                  </li>
+                  <li><button type="button" onClick={() => go("/about")}>About Us</button></li>
+                  <li><button type="button" onClick={() => go("/referral")}>Referral</button></li>
+                  <li><button type="button" onClick={() => go("/how-we-help")}>How We Help</button></li>
+                  <li><button type="button" onClick={() => go("/contact")}>Enquire / Contact</button></li>
                 </ul>
                 <p className="nav-mega-side-note">NDIS registration pending.</p>
               </aside>
             </div>
           </li>
 
-          {/* <li>
-            <NavLink to="/how-we-help" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
-              How We Help
-            </NavLink>
-          </li> */}
-
           <li>
-            <NavLink to="/referral" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+            <NavLink
+              to="/referral"
+              className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
               Referral
             </NavLink>
           </li>
-
 
           <li>
             <NavLink to="/contact" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
@@ -368,6 +348,27 @@ export default function Header() {
           </li>
         </ul>
       </nav>
+
+      {/* Mobile sticky bottom action bar */}
+      <div className="mobile-actions" role="region" aria-label="Quick actions">
+        <a className="mobile-actions-btn" href={telHref} aria-label="Call us">
+          <span className="mobile-actions-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.36 2.3.55 3.6.55a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.1 21 3 13.9 3 5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.2.2 2.5.6 3.6a1 1 0 0 1-.25 1L6.6 10.8z" />
+            </svg>
+          </span>
+          <span>Call</span>
+        </a>
+
+        <button className="mobile-actions-btn primary" type="button" onClick={() => go("/contact")}>
+          <span className="mobile-actions-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
+            </svg>
+          </span>
+          <span>Enquire</span>
+        </button>
+      </div>
     </header>
   );
 }

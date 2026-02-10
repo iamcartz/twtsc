@@ -101,7 +101,7 @@ export default function ServiceDetail() {
             loading="eager"
             style={{
               width: "100%",
-              height: 320,
+              height: 420,
               objectFit: "cover",
               borderRadius: "var(--radius)",
               border: "1px solid rgba(31, 41, 55, 0.10)",

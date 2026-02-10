@@ -22,12 +22,25 @@
   max-width: 60ch;
 }
 
-.hero-image img {
+/* ✅ HERO IMAGE WRAPPER (fixes "not fit" / cropping issues nicely) */
+.hero-image {
   width: 100%;
-  height: 320px;
-  object-fit: cover;
+  height: 420px; /* desktop hero image height */
+  overflow: hidden;
   border-radius: var(--radius);
   border: 1px solid rgba(31, 41, 55, 0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ✅ HERO IMAGE */
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* key line */
+  object-position: center; /* keeps subject centered */
+  display: block;
 }
 
 .cta-row {
@@ -97,7 +110,8 @@
   .hero {
     grid-template-columns: 1fr;
   }
-  .hero-image img {
-    height: 260px;
+
+  .hero-image {
+    height: 260px; /* mobile hero image height */
   }
 }

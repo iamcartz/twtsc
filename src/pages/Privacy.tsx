@@ -1,5 +1,7 @@
 import { useSeo } from "../hooks/useSeo";
 
+const EMAIL = "info@twt.net.au";
+
 export default function Privacy() {
   useSeo({
     title: "Privacy Policy | Together We Thrive",
@@ -51,13 +53,13 @@ export default function Privacy() {
         <p className="muted">
           You may request access to, or correction of, your personal information.
           Contact us at{" "}
-          <a href="mailto:info@twt.com.au">info@twt.com.au</a>.
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
         </p>
 
         <h2>Contact</h2>
         <p className="muted">
           Email:{" "}
-          <a href="mailto:info@twt.com.au">info@twt.com.au</a>
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
         </p>
       </div>
     </section>
