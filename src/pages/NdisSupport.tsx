@@ -340,9 +340,14 @@ export default function NdisSupport() {
 
             <p className="ndis-lead">
               We support people living with psychosocial disability and mental
-              health support needs with calm, practical{" "}
-              <strong>Mental Health and Wellbeing Support</strong> that helps
-              build routine, confidence and meaningful connection.
+              health support needs with calm, practical
+              <strong> Mental Health and Wellbeing Support</strong> that helps
+              build routine, confidence and meaningful connection at your pace.
+            </p>
+
+            <p className="ndis-service-area">
+              Servicing <strong>all of NSW</strong> with local support across
+              South Western Sydney including Horsley Park and Five Dock.
             </p>
 
             <div className="ndis-pill-row">
