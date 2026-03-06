@@ -116,3 +116,10 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+.faq {
+  padding-top: 0.25rem;
+}
+.faq h3 {
+  font-size: 1.05rem;
+}

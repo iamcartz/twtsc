@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useSeo } from "../hooks/useSeo";
 import { useEffect, useMemo, useState } from "react";
 
-const PHONE = "+61 433 883 614";
+const PHONE = "(02) 9188 3644";
 const EMAIL = "info@twt.net.au";
 
 function usePrefersReducedMotion() {
@@ -67,7 +67,7 @@ function useHomeJsonLdSchema() {
             name: "New South Wales, Australia",
           },
           description:
-            "Person-centred disability support services and NDIS support services in South Western Sydney, with a focus on psychosocial disability support and mental health & wellbeing support.",
+            "Person-centred disability support services and NDIS support services in South Western Sydney, with a focus on psychosocial disability support and mental health and wellbeing support.",
           contactPoint: [
             {
               "@type": "ContactPoint",
@@ -133,7 +133,7 @@ export default function Home() {
     title:
       "Together We Thrive Support Co | Psychosocial Disability & Mental Health Support (NDIS)",
     description:
-      "Together We Thrive Support Co provides psychosocial disability support and mental health & wellbeing support as part of our NDIS support services in South Western Sydney — helping participants build routine, confidence, and community connection.",
+      "Together We Thrive Support Co provides psychosocial disability support and mental health and wellbeing support as part of our NDIS support services in South Western Sydney, helping participants build routine, confidence and community connection.",
   });
 
   // ✅ JSON-LD injection (safe runtime origin)
@@ -159,20 +159,25 @@ export default function Home() {
             </div>
           </div>
 
-          <h1>Psychosocial disability support &amp; mental health wellbeing</h1>
+          <h1>Psychosocial disability support and mental health wellbeing</h1>
 
           <p className="lead">
             We support people living with <strong>psychosocial disability</strong>{" "}
-            (mental health support needs) with calm, practical{" "}
-            <strong>Mental Health &amp; Wellbeing Support</strong>. Our focus is
-            helping you build routine, confidence, and meaningful connection —
-            at your pace.
+            and mental health support needs with calm, practical{" "}
+            <strong>Mental Health and Wellbeing Support</strong>. Our focus is
+            helping you build routine, confidence and meaningful connection at
+            your pace.
           </p>
 
           <p className="muted" style={{ marginTop: ".5rem" }}>
-            Supports are tailored to goals and NDIS funding, and may include help
-            with daily routines, appointments, community participation, and
-            skill-building for independence.
+            Supports are tailored to goals and NDIS funding. This may include
+            help with daily routines, appointments, community participation, and
+            skill building for independence.
+          </p>
+
+          {/* ✅ Trust line */}
+          <p className="muted" style={{ marginTop: ".5rem" }}>
+            <strong>Built on advocacy, accountability and participant rights.</strong>
           </p>
 
           {/* CTA BUTTONS */}
@@ -188,13 +193,13 @@ export default function Home() {
 
           {/* Local SEO reassurance */}
           <p className="muted hero-helper">
-            Supporting <strong>South Western Sydney</strong> • Expanding across{" "}
+            Supporting <strong>South Western Sydney</strong>, expanding across{" "}
             <strong>NSW</strong> as we grow
           </p>
 
           {/* Key supports (mental health first) */}
           <div className="pill-row" aria-label="Key supports offered">
-            <span className="pill">Mental Health &amp; Wellbeing Support</span>
+            <span className="pill">Mental Health and Wellbeing Support</span>
             <span className="pill">Psychosocial disability support</span>
             <span className="pill">Community participation</span>
           </div>
@@ -211,36 +216,47 @@ export default function Home() {
       {/* TRUST / REASSURANCE */}
       <div className="trust-row" aria-label="Trust and service information">
         <div className="trust-card">
-          <h2>Recovery-focused, practical support</h2>
+          <h2>Recovery focused, practical support</h2>
           <p className="muted">
-            We offer calm, routine-based support that helps with planning,
-            motivation, and taking steady steps forward.
+            We offer calm, routine based support that helps with planning,
+            motivation and taking steady steps forward.
           </p>
         </div>
 
         <div className="trust-card">
-          <h2>Person-centred &amp; respectful</h2>
+          <h2>Person centred and respectful</h2>
           <p className="muted">
-            We listen first. Support is delivered with dignity, privacy, and
+            We listen first. Support is delivered with dignity, privacy and
             clear communication.
           </p>
         </div>
 
         <div className="trust-card">
-          <h2>NDIS funding support options</h2>
+          <h2>Guided by safeguards and clear processes</h2>
           <p className="muted">
-            We support <strong>self-managed</strong> and{" "}
-            <strong>plan-managed</strong> participants. If you’re NDIA-managed,
-            contact us and we’ll guide you on options.
+            Our supports are guided by a strong understanding of participant
+            rights, safeguards and the NDIS framework. This means clearer
+            communication, fair service agreements and support that keeps your
+            wellbeing at the centre.
+          </p>
+          <p className="muted" style={{ marginTop: ".4rem" }}>
+            You can read more on our{" "}
+            <Link to="/participant-safeguards">Participant Safeguards</Link> page.
           </p>
         </div>
       </div>
 
-      {/* PRIMARY CARDS: psychosocial / wellbeing first */}
+      {/* PRIMARY CARDS */}
       <header className="page-header" style={{ marginTop: "1.5rem" }}>
-        <h2>Mental Health &amp; Wellbeing Support</h2>
+        <h2>Mental Health and Wellbeing Support</h2>
         <p className="muted">
-          Support that’s practical, calm, and focused on everyday progress.
+          Support that is practical, calm and focused on everyday progress.
+        </p>
+        <p className="muted" style={{ marginTop: ".25rem" }}>
+          Our approach is shaped by understanding emotional wellbeing,
+          communication styles and the impact of past experiences. This helps us
+          respond calmly, build trust and support people in ways that feel safe,
+          respectful and empowering.
         </p>
       </header>
 
@@ -251,9 +267,9 @@ export default function Home() {
             alt="Two women enjoying coffee outdoors, smiling and talking together"
           />
           <div className="service-body">
-            <h3>Connection &amp; community participation</h3>
+            <h3>Connection and community participation</h3>
             <p className="muted">
-              Gentle support to get out, rebuild confidence, and reconnect with
+              Gentle support to get out, rebuild confidence and reconnect with
               activities and people that matter.
             </p>
             <Link className="text-link" to="/services">
@@ -268,9 +284,9 @@ export default function Home() {
             alt="Support worker assisting an older man using a walker at home"
           />
           <div className="service-body">
-            <h3>Routine, planning &amp; daily living support</h3>
+            <h3>Routine, planning and daily living support</h3>
             <p className="muted">
-              Support with routines, meal planning, appointments, and organising
+              Support with routines, meal planning, appointments and organising
               your day in a way that feels manageable.
             </p>
             <Link className="text-link" to="/services">
@@ -285,13 +301,13 @@ export default function Home() {
             alt="Support worker assisting a participant with personal care"
           />
           <div className="service-body">
-            <h3>In-home support &amp; personal care (as needed)</h3>
+            <h3>In home support and personal care, as needed</h3>
             <p className="muted">
-              Respectful support at home to maintain wellbeing, safety, and
-              independence — always with dignity and privacy.
+              Respectful support at home to maintain wellbeing, safety and
+              independence, always with dignity and privacy.
             </p>
             <Link className="text-link" to="/services">
-              Explore in-home supports →
+              Explore in home supports →
             </Link>
           </div>
         </article>
@@ -302,7 +318,11 @@ export default function Home() {
         <div className="contact-strip-left">
           <h2>Ready to talk?</h2>
           <p className="muted">
-            Call us or send a message. We’ll respond as soon as possible.
+            Call us or send a message. We will respond as soon as possible.
+          </p>
+          <p className="muted" style={{ marginTop: ".25rem" }}>
+            If you are a participant, family member or support coordinator, we
+            are here to make the process clear and stress free.
           </p>
         </div>
 
@@ -331,11 +351,11 @@ export default function Home() {
           <h2>Who we support</h2>
           <ul className="list">
             <li>
-              People living with <strong>psychosocial disability</strong> (mental
-              health support needs)
+              People living with <strong>psychosocial disability</strong> and
+              mental health support needs
             </li>
-            <li>NDIS participants seeking routine, confidence, and stability</li>
-            <li>Families, carers, and support coordinators</li>
+            <li>NDIS participants seeking routine, confidence and stability</li>
+            <li>Families, carers and support coordinators</li>
             <li>People wanting stronger community connection and independence</li>
           </ul>
           <p className="muted" style={{ marginTop: ".5rem" }}>

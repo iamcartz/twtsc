@@ -55,7 +55,7 @@ function useServicesJsonLdSchema() {
           name: "Together We Thrive Support Co",
           url: siteUrl || undefined,
           email: "info@twt.net.au",
-          telephone: "+61 433 883 614",
+          telephone: "(02) 9188 3644",
           logo: logoUrl,
           image: heroImg,
           areaServed: {
@@ -63,7 +63,7 @@ function useServicesJsonLdSchema() {
             name: "New South Wales, Australia",
           },
           description:
-            "NDIS disability support services in South Western Sydney including NDIS in-home support, NDIS personal care support, NDIS daily living support, NDIS community participation and psychosocial disability support.",
+            "NDIS disability support services in South Western Sydney including NDIS in home support, NDIS personal care support, NDIS daily living support, NDIS community participation and psychosocial disability support.",
         },
         {
           "@type": "WebSite",
@@ -160,7 +160,7 @@ export default function Services() {
   const pageTitle =
     "NDIS Support Services | Together We Thrive Support Co (South Western Sydney)";
   const pageDesc =
-    "Explore our NDIS support services and disability support services in South Western Sydney: NDIS in-home support, NDIS personal care support, NDIS daily living support, NDIS community participation, and psychosocial disability support (mental health & wellbeing).";
+    "Explore our NDIS support services and disability support services in South Western Sydney, including in home support, personal care, daily living, community participation, and psychosocial disability support for mental health and wellbeing.";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -200,29 +200,42 @@ export default function Services() {
           <h1>NDIS support services</h1>
 
           <p className="lead">
-            Person-centred disability support designed to be simple to
-            understand and easy to access — at home and in the community across{" "}
+            Person centred disability support designed to be simple to
+            understand and easy to access, at home and in the community across{" "}
             <strong>South Western Sydney</strong>.
           </p>
 
           <p className="muted" style={{ marginTop: ".5rem" }}>
-            Our supports may include <strong>NDIS daily living support</strong>,{" "}
-            <strong>NDIS in-home support</strong>,{" "}
-            <strong>NDIS personal care support</strong>, and{" "}
-            <strong>NDIS community participation</strong>, based on participant
-            goals and funding.
+            <strong>Built on advocacy, accountability and participant rights.</strong>
+          </p>
+
+          <p className="muted" style={{ marginTop: ".5rem" }}>
+            Our supports may include <strong>daily living support</strong>,{" "}
+            <strong>in home support</strong>,{" "}
+            <strong>personal care support</strong>, and{" "}
+            <strong>community participation</strong>, based on your goals and NDIS
+            funding.
           </p>
 
           <p className="muted" style={{ marginTop: ".5rem" }}>
             We also support participants with{" "}
-            <strong>psychosocial disability support</strong> through calm,
-            practical <strong>mental health &amp; wellbeing</strong> supports.
+            <strong>psychosocial disability</strong> through calm, practical{" "}
+            <strong>mental health and wellbeing</strong> supports.
           </p>
 
           <p className="muted" style={{ marginTop: ".5rem" }}>
             <strong>Registration status:</strong> NDIS registration is currently
             pending.
           </p>
+
+          <div className="cta-row" style={{ marginTop: ".85rem" }}>
+            <Link className="btn primary" to="/contact">
+              Contact Us
+            </Link>
+            <Link className="btn ghost" to="/participant-safeguards">
+              Participant Safeguards
+            </Link>
+          </div>
         </div>
 
         <div className="hero-image">
@@ -231,6 +244,26 @@ export default function Services() {
             alt="Support worker with participant in a welcoming community setting"
           />
         </div>
+      </section>
+
+      {/* HOW WE DELIVER SUPPORT */}
+      <section className="note reveal" aria-label="How we deliver support">
+        <h2 style={{ marginTop: 0 }}>How we deliver support</h2>
+        <p className="muted" style={{ marginTop: ".25rem" }}>
+          We focus on practical supports delivered with respect, emotional
+          understanding and clear communication. Our leadership has a strong
+          understanding of participant rights, safeguards and the NDIS framework,
+          including legal and regulatory obligations. This supports stronger
+          clarity, fair processes and participant first care.
+        </p>
+
+        <ul className="list" style={{ marginTop: ".75rem" }}>
+          <li>Participant first and goal focused support</li>
+          <li>Clear, plain language communication</li>
+          <li>Respect for choice, control and independence</li>
+          <li>Awareness of emotional wellbeing and communication styles</li>
+          <li>Safeguards and accountability built into how we work</li>
+        </ul>
       </section>
 
       {/* SERVICES GRID */}
@@ -301,7 +334,7 @@ export default function Services() {
       <section className="note reveal" aria-label="Need help choosing a service?">
         <h2 style={{ marginTop: 0 }}>Not sure what you need?</h2>
         <p className="muted" style={{ marginTop: ".25rem" }}>
-          Tell us a little about your situation and goals. We’ll help you
+          Tell us a little about your situation and goals. We will help you
           understand your options and the next steps.
         </p>
         <div className="cta-row">

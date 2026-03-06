@@ -5,7 +5,7 @@ import "../styles/Contact.css";
 import { Turnstile } from "@marsidev/react-turnstile";
 
 const EMAIL = "info@twt.net.au";
-const PHONE = "+61 433 883 614";
+const PHONE = "(02) 9188 3644";
 
 const SERVICES = [
   "Not sure",
@@ -34,10 +34,6 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
-/**
- * Injects JSON-LD schema safely (no hardcoded domain).
- * Uses runtime origin/pathname.
- */
 function useContactJsonLdSchema() {
   const schemaGraph = useMemo(() => {
     const origin =
@@ -65,7 +61,6 @@ function useContactJsonLdSchema() {
     return {
       "@context": "https://schema.org",
       "@graph": [
-        // Organization / LocalBusiness (consistent id to link across pages)
         {
           "@type": ["Organization", "LocalBusiness"],
           "@id": orgId,
@@ -92,8 +87,6 @@ function useContactJsonLdSchema() {
             },
           ],
         },
-
-        // WebSite
         {
           "@type": "WebSite",
           "@id": websiteId,
@@ -102,8 +95,6 @@ function useContactJsonLdSchema() {
           publisher: { "@id": orgId },
           inLanguage: "en-AU",
         },
-
-        // WebPage
         {
           "@type": "WebPage",
           "@id": webpageId,
@@ -113,8 +104,6 @@ function useContactJsonLdSchema() {
           about: { "@id": orgId },
           inLanguage: "en-AU",
         },
-
-        // ContactPage
         {
           "@type": "ContactPage",
           "@id": pageUrl ? `${pageUrl}#contactpage` : "#contactpage",
@@ -124,8 +113,6 @@ function useContactJsonLdSchema() {
           about: { "@id": orgId },
           mainEntity: { "@id": orgId },
         },
-
-        // Places (service locations)
         {
           "@type": "Place",
           "@id": siteUrl ? `${siteUrl}#horsley-park` : "#horsley-park",
@@ -150,8 +137,6 @@ function useContactJsonLdSchema() {
             addressCountry: "AU",
           },
         },
-
-        // BreadcrumbList
         {
           "@type": "BreadcrumbList",
           "@id": breadcrumbsId,
@@ -184,6 +169,16 @@ function useContactJsonLdSchema() {
   }, [schemaGraph]);
 }
 
+async function readResponseSafely(res: Response) {
+  const ct = res.headers.get("content-type") || "";
+  if (ct.includes("application/json")) {
+    return await res.json();
+  }
+  // fallback: could be HTML/php error
+  const text = await res.text();
+  return { errors: [text?.slice(0, 300) || "Server returned a non-JSON error."] };
+}
+
 export default function Contact() {
   useSeo({
     title: "Contact | Together We Thrive Support Co",
@@ -191,7 +186,6 @@ export default function Contact() {
       "Contact Together We Thrive Support Co for person-centred disability support services and NDIS support services in South Western Sydney. Call, email, or send an enquiry online.",
   });
 
-  // ✅ Inject JSON-LD schema like your About page
   useContactJsonLdSchema();
 
   const reducedMotion = usePrefersReducedMotion();
@@ -202,18 +196,37 @@ export default function Contact() {
 
   const [activeMap, setActiveMap] = useState<LocationKey>("horsley");
 
-  /* 🔐 SAME AS REFERRAL: CSRF */
+  // CSRF
   const [csrf, setCsrf] = useState("");
+  const [csrfReady, setCsrfReady] = useState(false);
+
   useEffect(() => {
-    fetch("/api/csrf.php")
-      .then((r) => r.json())
-      .then((j) => setCsrf(j?.csrf || ""));
+    let cancelled = false;
+    (async () => {
+      try {
+        const r = await fetch("/api/csrf.php", { credentials: "include" });
+        const j = await r.json();
+        if (!cancelled) {
+          setCsrf(j?.csrf || "");
+          setCsrfReady(true);
+        }
+      } catch {
+        if (!cancelled) {
+          setCsrf("");
+          setCsrfReady(true);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  /* 🛡️ SAME AS REFERRAL: Turnstile */
+  // Turnstile token
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
 
-  /* animation / scroll target */
+  // status scroll
   const statusRef = useRef<HTMLDivElement | null>(null);
   const [tick, setTick] = useState(0);
 
@@ -232,11 +245,17 @@ export default function Contact() {
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    /* honeypot */
-    if (data.get("company")) return;
+    // honeypot
+    if (!String(data.get("company") || "")) {
+      // ok
+    } else {
+      return;
+    }
 
     if (!csrf) {
-      setErrors(["Security token not ready. Please refresh the page."]);
+      setErrors([
+        "Security token not ready. Please refresh the page and try again.",
+      ]);
       revealStatus();
       return;
     }
@@ -248,27 +267,38 @@ export default function Contact() {
     }
 
     const payload = {
-      name: (data.get("name") || "").toString().trim(),
-      email: (data.get("email") || "").toString().trim(),
-      service: (data.get("service") || "Not sure").toString(),
-      message: (data.get("message") || "").toString().trim(),
-
-      /* SAME SECURITY FIELDS */
+      name: String(data.get("name") || "").trim(),
+      email: String(data.get("email") || "").trim(),
+      service: String(data.get("service") || "Not sure"),
+      message: String(data.get("message") || "").trim(),
+      source: "Website Contact Form",
       csrf,
       turnstileToken,
-      company: "",
+      company: "", // keep honeypot empty
     };
+
+    // quick client validation
+    const vErrors: string[] = [];
+    if (!payload.name) vErrors.push("Please enter your name.");
+    if (!payload.email) vErrors.push("Please enter your email.");
+    if (!payload.message) vErrors.push("Please enter a message.");
+    if (vErrors.length) {
+      setErrors(vErrors);
+      revealStatus();
+      return;
+    }
 
     setSubmitting(true);
 
     try {
       const res = await fetch("/api/contact.php", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
-      const out = await res.json();
+      const out = await readResponseSafely(res);
 
       if (!res.ok) {
         setErrors(out?.errors || ["Something went wrong."]);
@@ -278,9 +308,11 @@ export default function Contact() {
 
       setStatus("success");
       setErrors([]);
-      setTurnstileToken("");
-      setTick((t) => t + 1);
       form.reset();
+
+      // reset turnstile state
+      setTurnstileToken("");
+      setTurnstileResetKey((k) => k + 1);
 
       revealStatus();
     } catch {
@@ -291,9 +323,11 @@ export default function Contact() {
     }
   }
 
+  const canSubmit =
+    !submitting && csrfReady && !!csrf && !!turnstileToken;
+
   return (
     <main className="page" id="main">
-      {/* HERO */}
       <div className={`hero ${reducedMotion ? "" : "hero-animate"}`}>
         <div className="hero-content">
           <div className="hero-brand">
@@ -338,7 +372,6 @@ export default function Contact() {
       </header>
 
       <div className="contact-grid">
-        {/* LEFT */}
         <div className="contact-card">
           <h2>📍 Get in touch</h2>
 
@@ -394,7 +427,6 @@ export default function Contact() {
           )}
         </div>
 
-        {/* RIGHT */}
         <div className="contact-card">
           <h2>📝 Send an enquiry</h2>
 
@@ -425,12 +457,12 @@ export default function Contact() {
 
             <label>
               Name
-              <input name="name" />
+              <input name="name" autoComplete="name" required />
             </label>
 
             <label>
               Email
-              <input name="email" type="email" />
+              <input name="email" type="email" autoComplete="email" required />
             </label>
 
             <label>
@@ -444,24 +476,26 @@ export default function Contact() {
 
             <label>
               Message
-              <textarea name="message" rows={5} />
+              <textarea name="message" rows={5} required />
             </label>
 
-            {/* SAME TURNSTILE AS REFERRAL */}
             <Turnstile
+              key={turnstileResetKey}
               siteKey="0x4AAAAAACZ-mU6ox2cWGFfP"
               onSuccess={(t) => setTurnstileToken(t)}
               onExpire={() => setTurnstileToken("")}
               onError={() => setTurnstileToken("")}
             />
 
-            <button
-              className="btn primary"
-              type="submit"
-              disabled={submitting || !turnstileToken}
-            >
+            <button className="btn primary" type="submit" disabled={!canSubmit}>
               {submitting ? "Sending..." : "Send enquiry"}
             </button>
+
+            {!csrfReady && (
+              <p className="muted" style={{ marginTop: ".5rem" }}>
+                Loading security token…
+              </p>
+            )}
 
             <p className="muted contact-helper">
               Prefer to browse?{" "}

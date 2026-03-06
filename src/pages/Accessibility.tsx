@@ -1,6 +1,6 @@
 import { useSeo } from "../hooks/useSeo";
 
-const PHONE = "+61 433 883 614";
+const PHONE = "(02) 9188 3644";
 export default function Accessibility() {
   useSeo({
     title: "Accessibility Statement | Together We Thrive",

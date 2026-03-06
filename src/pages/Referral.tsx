@@ -5,7 +5,7 @@ import "../styles/Referral.css";
 import { Turnstile } from "@marsidev/react-turnstile";
 
 const EMAIL = "info@twt.net.au";
-const PHONE = "+61 433 883 614";
+const PHONE = "(02) 9188 3644";
 const Turnstile_SITE_KEY = "0x4AAAAAACZ-mU6ox2cWGFfP"; // ✅ Cloudflare Turnstile site key
 
 const REFERRAL_TYPES = [
@@ -302,7 +302,7 @@ export default function Referral() {
 
             <div className="qr-wrap" ref={qrWrapRef}>
               <QRCodeCanvas
-                value={referralUrl}
+                value={intakePdfUrl}
                 size={170}
                 includeMargin
                 level="M"

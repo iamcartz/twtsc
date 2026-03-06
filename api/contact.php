@@ -1,10 +1,98 @@
 <?php
-session_start();
-header("Content-Type: application/json");
+declare(strict_types=1);
 
-// ===============================
-// LOAD PHPMailer (manual include)
-// ===============================
+session_start();
+header("Content-Type: application/json; charset=UTF-8");
+
+function respond(int $code, array $payload): void {
+  http_response_code($code);
+  echo json_encode($payload);
+  exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+  respond(405, ["errors" => ["Method not allowed"]]);
+}
+
+$raw = file_get_contents("php://input");
+$data = json_decode($raw, true);
+
+if (!is_array($data)) {
+  respond(400, ["errors" => ["Invalid JSON payload."]]);
+}
+
+// Honeypot
+if (!empty($data["company"])) {
+  respond(200, ["ok" => true]);
+}
+
+// ---- CONFIG ----
+$SMTP_HOST = "twt.net.au";
+$SMTP_USER = "no-reply@twt.net.au";
+$SMTP_PASS = "REPLACE_WITH_REAL_PASSWORD";
+$SMTP_PORT = 465;
+
+$MAIL_TO = "info@twt.net.au";
+
+$TURNSTILE_SECRET = "REPLACE_WITH_TURNSTILE_SECRET";
+
+// ---- VALIDATE INPUT ----
+$name = trim((string)($data["name"] ?? ""));
+$email = trim((string)($data["email"] ?? ""));
+$service = trim((string)($data["service"] ?? "Not sure"));
+$message = trim((string)($data["message"] ?? ""));
+
+$csrf = (string)($data["csrf"] ?? "");
+$turnstileToken = (string)($data["turnstileToken"] ?? "");
+
+$errors = [];
+
+if ($name === "") $errors[] = "Name is required.";
+if ($email === "" || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Valid email is required.";
+if ($message === "") $errors[] = "Message is required.";
+
+if (empty($_SESSION["csrf"]) || !hash_equals($_SESSION["csrf"], $csrf)) {
+  $errors[] = "Security token mismatch. Please refresh and try again.";
+}
+
+if ($turnstileToken === "") {
+  $errors[] = "Turnstile token missing.";
+}
+
+if ($errors) {
+  respond(400, ["errors" => $errors]);
+}
+
+// ---- VERIFY TURNSTILE ----
+$verifyUrl = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+$postData = http_build_query([
+  "secret" => $TURNSTILE_SECRET,
+  "response" => $turnstileToken,
+  "remoteip" => $_SERVER["REMOTE_ADDR"] ?? ""
+]);
+
+$ch = curl_init($verifyUrl);
+curl_setopt_array($ch, [
+  CURLOPT_POST => true,
+  CURLOPT_POSTFIELDS => $postData,
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_TIMEOUT => 10,
+]);
+
+$verifyRaw = curl_exec($ch);
+$curlErr = curl_error($ch);
+curl_close($ch);
+
+if ($verifyRaw === false) {
+  respond(500, ["errors" => ["Turnstile verification failed: $curlErr"]]);
+}
+
+$verify = json_decode($verifyRaw, true);
+if (!is_array($verify) || empty($verify["success"])) {
+  respond(400, ["errors" => ["Security check failed. Please try again."]]);
+}
+
+// ---- SEND EMAIL via PHPMailer ----
 require __DIR__ . "/PHPMailer/src/Exception.php";
 require __DIR__ . "/PHPMailer/src/PHPMailer.php";
 require __DIR__ . "/PHPMailer/src/SMTP.php";
@@ -12,143 +100,41 @@ require __DIR__ . "/PHPMailer/src/SMTP.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// ===============================
-// CONFIG (SERVER SIDE ONLY)
-// ===============================
-
-$SMTP_HOST = "twt.net.au";
-$SMTP_USER = "no-reply@twt.net.au";
-$SMTP_PASS = "4H!cz6NIkb?+}Sa~";          // <- put your real password here (server only)
-$SMTP_PORT = 465;
-
-$MAIL_TO = "info@twt.net.au";
-
-$TURNSTILE_SECRET = "0x4AAAAAACZ-mfDplW990B-H8SN2K6OYLzw"; // <- server only
-
-// ===============================
-// READ JSON INPUT
-// ===============================
-$input = json_decode(file_get_contents("php://input"), true);
-if (!is_array($input)) $input = [];
-
-// Honeypot (bots)
-if (!empty($input["company"] ?? "")) {
-  echo json_encode(["ok" => true]);
-  exit;
-}
-
-// ===============================
-// CSRF CHECK
-// ===============================
-$csrf = (string)($input["csrf"] ?? "");
-if (
-  empty($csrf) ||
-  empty($_SESSION["csrf"]) ||
-  !hash_equals($_SESSION["csrf"], $csrf)
-) {
-  http_response_code(400);
-  echo json_encode(["errors" => ["Security token invalid. Please refresh the page."]]);
-  exit;
-}
-
-// ===============================
-// TURNSTILE VERIFY
-// ===============================
-$turnstileToken = (string)($input["turnstileToken"] ?? "");
-if (!$turnstileToken) {
-  http_response_code(400);
-  echo json_encode(["errors" => ["Please complete the security check."]]);
-  exit;
-}
-
-$ch = curl_init("https://challenges.cloudflare.com/turnstile/v0/siteverify");
-curl_setopt_array($ch, [
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_POST => true,
-  CURLOPT_POSTFIELDS => http_build_query([
-    "secret" => $TURNSTILE_SECRET,
-    "response" => $turnstileToken,
-    "remoteip" => $_SERVER["REMOTE_ADDR"] ?? "",
-  ]),
-  CURLOPT_TIMEOUT => 10,
-]);
-$resp = curl_exec($ch);
-curl_close($ch);
-
-$verify = json_decode($resp ?: "", true);
-if (!is_array($verify) || empty($verify["success"])) {
-  http_response_code(400);
-  echo json_encode(["errors" => ["Turnstile verification failed. Please try again."]]);
-  exit;
-}
-
-// ===============================
-// SANITIZE + VALIDATE FIELDS
-// ===============================
-function clean($v): string {
-  return trim((string)($v ?? ""));
-}
-
-$name    = clean($input["name"] ?? "");
-$email   = clean($input["email"] ?? "");
-$service = clean($input["service"] ?? "Not sure");
-$message = clean($input["message"] ?? "");
-
-$errors = [];
-if ($name === "") $errors[] = "Please enter your name.";
-if ($email === "" || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Please enter a valid email address.";
-if ($message === "") $errors[] = "Please enter a message.";
-
-if ($errors) {
-  http_response_code(400);
-  echo json_encode(["errors" => $errors]);
-  exit;
-}
-
-// ===============================
-// BUILD EMAIL BODY
-// ===============================
-$plainBody = "NEW CONTACT ENQUIRY\n\n"
-  . "Name: {$name}\n"
-  . "Email: {$email}\n"
-  . "Preferred Service: {$service}\n\n"
-  . "Message:\n{$message}\n\n"
-  . "IP: " . ($_SERVER["REMOTE_ADDR"] ?? "unknown") . "\n"
-  . "Time (UTC): " . gmdate("Y-m-d H:i:s") . "\n";
-
-// ===============================
-// SEND EMAIL
-// ===============================
 try {
   $mail = new PHPMailer(true);
   $mail->CharSet = "UTF-8";
-
   $mail->isSMTP();
   $mail->Host = $SMTP_HOST;
   $mail->SMTPAuth = true;
   $mail->Username = $SMTP_USER;
   $mail->Password = $SMTP_PASS;
-
-  // Port 465 = implicit TLS
   $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
   $mail->Port = $SMTP_PORT;
 
-  $mail->setFrom($SMTP_USER, "Together We Thrive");
+  $mail->setFrom($SMTP_USER, "Together We Thrive Website");
   $mail->addAddress($MAIL_TO);
 
-  // Replies go back to the sender
+  // lets you reply directly to user
   $mail->addReplyTo($email, $name);
 
-  $mail->Subject = "New Contact Enquiry: {$name} ({$service})";
-  $mail->Body = $plainBody;
+  $subject = "New Contact Enquiry - " . $service;
+  $body =
+    "New enquiry received:\n\n" .
+    "Name: {$name}\n" .
+    "Email: {$email}\n" .
+    "Preferred service: {$service}\n\n" .
+    "Message:\n{$message}\n\n" .
+    "IP: " . ($_SERVER["REMOTE_ADDR"] ?? "unknown") . "\n";
+
+  $mail->Subject = $subject;
+  $mail->Body = $body;
 
   $mail->send();
 
-  // optional: rotate CSRF after success
+  // rotate csrf after successful post (optional but good)
   $_SESSION["csrf"] = bin2hex(random_bytes(32));
 
-  echo json_encode(["ok" => true]);
+  respond(200, ["ok" => true]);
 } catch (Exception $e) {
-  http_response_code(500);
-  echo json_encode(["errors" => ["Message failed to send. Please try again later."]]);
+  respond(500, ["errors" => ["Mailer error: " . $e->getMessage()]]);
 }

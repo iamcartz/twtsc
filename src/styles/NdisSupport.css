@@ -1,0 +1,728 @@
+.ndis-support-page {
+  --ndis-navy: #123357;
+  --ndis-navy-deep: #0d2742;
+  --ndis-teal: #22b2b1;
+  --ndis-teal-dark: #1a9797;
+  --ndis-green: #6bbd45;
+  --ndis-text: #1d2f41;
+  --ndis-muted: #5b6c7f;
+  --ndis-line: rgba(18, 51, 87, 0.12);
+  --ndis-shadow: 0 18px 48px rgba(9, 26, 45, 0.1);
+
+  min-height: 100vh;
+  color: var(--ndis-text);
+  background:
+    radial-gradient(circle at top left, rgba(35, 178, 177, 0.08), transparent 20%),
+    radial-gradient(circle at bottom right, rgba(107, 189, 69, 0.06), transparent 22%),
+    linear-gradient(180deg, #f7f8f8 0%, #eef2f3 100%);
+}
+
+.ndis-container,
+.ndis-hero-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.ndis-hero {
+  padding: 36px 0 22px;
+  overflow: hidden;
+}
+
+.ndis-hero-shell {
+  display: grid;
+  grid-template-columns: 1.02fr 0.98fr;
+  gap: 34px;
+  align-items: center;
+}
+
+.ndis-hero-copy {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 34px;
+  padding: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: var(--ndis-shadow);
+  position: relative;
+}
+
+.ndis-hero-copy::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 26px;
+  border: 2px solid rgba(35, 178, 177, 0.18);
+  pointer-events: none;
+}
+
+.ndis-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.ndis-brand img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(9, 26, 45, 0.08);
+}
+
+.ndis-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+
+.ndis-brand-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--ndis-navy);
+}
+
+.ndis-brand-subtitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ndis-teal-dark);
+}
+
+.ndis-eyebrow {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ndis-teal-dark);
+}
+
+.ndis-eyebrow-light {
+  color: #a4ecea;
+}
+
+.ndis-hero h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--ndis-navy);
+  max-width: 680px;
+}
+
+.ndis-hero h1 span {
+  color: var(--ndis-teal-dark);
+}
+
+.ndis-lead {
+  margin: 18px 0 0;
+  max-width: 600px;
+  font-size: 1.1rem;
+  line-height: 1.72;
+  color: var(--ndis-muted);
+}
+
+.ndis-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.ndis-pill {
+  min-height: 42px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(35, 178, 177, 0.1);
+  border: 1px solid rgba(35, 178, 177, 0.14);
+  color: var(--ndis-navy);
+  font-weight: 800;
+}
+
+.ndis-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.ndis-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 800;
+  border: 2px solid transparent;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.ndis-btn:hover {
+  transform: translateY(-1px);
+}
+
+.ndis-btn-primary {
+  background: linear-gradient(135deg, var(--ndis-teal) 0%, var(--ndis-teal-dark) 100%);
+  color: #fff;
+  box-shadow: 0 14px 26px rgba(26, 151, 151, 0.22);
+}
+
+.ndis-btn-outline {
+  background: transparent;
+  color: var(--ndis-navy);
+  border-color: var(--ndis-navy);
+}
+
+.ndis-btn-outline-light {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.ndis-contact-inline {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  color: var(--ndis-muted);
+  font-weight: 600;
+}
+
+.ndis-hero-image-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.ndis-hero-image-ring {
+  width: min(100%, 620px);
+  aspect-ratio: 1 / 1;
+  padding: 16px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(224, 235, 237, 0.92));
+  box-shadow: var(--ndis-shadow);
+  position: relative;
+}
+
+.ndis-hero-image-ring::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(35, 178, 177, 0.3);
+}
+
+.ndis-hero-image-ring::after {
+  content: "";
+  position: absolute;
+  inset: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(18, 51, 87, 0.12);
+}
+
+.ndis-hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.ndis-badges-section {
+  padding: 10px 0 8px;
+}
+
+.ndis-badges-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.ndis-badge-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--ndis-line);
+  border-radius: 20px;
+  padding: 16px 18px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--ndis-navy);
+  box-shadow: 0 10px 24px rgba(11, 29, 49, 0.05);
+}
+
+.ndis-services-overview {
+  padding: 24px 0 16px;
+}
+
+.ndis-services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.ndis-service-card {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--ndis-line);
+  border-radius: 26px;
+  padding: 24px 18px;
+  box-shadow: 0 12px 28px rgba(11, 29, 49, 0.06);
+}
+
+.ndis-service-card.is-featured {
+  border: 2px solid rgba(26, 151, 151, 0.28);
+  background: linear-gradient(180deg, rgba(35, 178, 177, 0.08), rgba(255, 255, 255, 0.96));
+  transform: translateY(-2px);
+}
+
+.ndis-service-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 14px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(35, 178, 177, 0.12), rgba(107, 189, 69, 0.1));
+}
+
+.ndis-service-icon svg {
+  width: 38px;
+  height: 38px;
+  stroke: var(--ndis-navy);
+  fill: none;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ndis-service-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  color: var(--ndis-navy);
+}
+
+.ndis-service-card p {
+  margin: 0;
+  color: var(--ndis-muted);
+  line-height: 1.65;
+}
+
+.ndis-proof {
+  padding: 20px 0 58px;
+}
+
+.ndis-proof-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.88fr;
+  gap: 22px;
+}
+
+.ndis-proof-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 30px;
+  padding: 30px;
+  border: 1px solid var(--ndis-line);
+  box-shadow: 0 14px 34px rgba(11, 29, 49, 0.07);
+}
+
+.ndis-proof-card-accent {
+  background: linear-gradient(180deg, rgba(35, 178, 177, 0.08), rgba(255, 255, 255, 0.94));
+}
+
+.ndis-proof-card h2 {
+  margin: 0 0 14px;
+  color: var(--ndis-navy);
+  font-size: 1.8rem;
+}
+
+.ndis-proof-card p {
+  margin: 0;
+  color: var(--ndis-muted);
+  line-height: 1.75;
+}
+
+.ndis-check-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.ndis-check-list li {
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+.ndis-proof-actions {
+  margin-top: 18px;
+}
+
+.ndis-testimonials-section {
+  padding: 10px 0 56px;
+}
+
+.ndis-section-heading {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.ndis-section-heading h2 {
+  margin: 0;
+  color: var(--ndis-navy);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+.ndis-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.ndis-testimonial-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 280px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 250, 251, 0.96));
+  border: 1px solid var(--ndis-line);
+  border-radius: 26px;
+  padding: 28px;
+  box-shadow: 0 14px 32px rgba(11, 29, 49, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.ndis-testimonial-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, rgba(35, 178, 177, 0.08), transparent 22%),
+    radial-gradient(circle at bottom left, rgba(107, 189, 69, 0.06), transparent 24%);
+  pointer-events: none;
+}
+
+.ndis-testimonial-mark {
+  position: relative;
+  z-index: 1;
+  font-size: 3.2rem;
+  line-height: 1;
+  font-weight: 800;
+  color: rgba(26, 151, 151, 0.2);
+  margin-bottom: 10px;
+}
+
+.ndis-testimonial-quote {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: var(--ndis-text);
+  line-height: 1.8;
+  font-size: 1.02rem;
+  flex-grow: 1;
+}
+
+.ndis-testimonial-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ndis-testimonial-line {
+  width: 38px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--ndis-teal) 0%, var(--ndis-green) 100%);
+  flex: 0 0 auto;
+}
+
+.ndis-testimonial-name {
+  margin: 0;
+  color: var(--ndis-teal-dark);
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.ndis-form-section {
+  padding: 10px 0 60px;
+}
+
+.ndis-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.ndis-form-copy h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  color: var(--ndis-navy);
+}
+
+.ndis-form-copy p {
+  margin: 0 0 14px;
+  color: var(--ndis-muted);
+  line-height: 1.75;
+}
+
+.ndis-lead-form {
+  background: rgba(255, 255, 255, 0.96);
+  padding: 28px;
+  border-radius: 24px;
+  border: 1px solid var(--ndis-line);
+  box-shadow: 0 14px 34px rgba(11, 29, 49, 0.07);
+}
+
+.ndis-form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+}
+
+.ndis-form-field label {
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: var(--ndis-navy);
+}
+
+.ndis-form-field input,
+.ndis-form-field select,
+.ndis-form-field textarea {
+  width: 100%;
+  border: 1px solid #d7e0e5;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--ndis-text);
+  background: #fff;
+}
+
+.ndis-form-field input:focus,
+.ndis-form-field select:focus,
+.ndis-form-field textarea:focus {
+  outline: none;
+  border-color: var(--ndis-teal);
+  box-shadow: 0 0 0 4px rgba(35, 178, 177, 0.1);
+}
+
+.ndis-submit-btn {
+  width: 100%;
+}
+
+.ndis-contact-section {
+  padding: 0 0 72px;
+}
+
+.ndis-contact-grid {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 24px;
+  padding: 34px;
+  border-radius: 34px;
+  background: linear-gradient(135deg, var(--ndis-navy) 0%, var(--ndis-navy-deep) 100%);
+  box-shadow: 0 20px 48px rgba(10, 28, 47, 0.16);
+}
+
+.ndis-contact-copy {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ndis-contact-copy h2 {
+  margin: 0 0 14px;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.08;
+}
+
+.ndis-contact-copy p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.8;
+}
+
+.ndis-contact-card {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 28px;
+  padding: 26px;
+}
+
+.ndis-contact-row {
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(18, 51, 87, 0.08);
+}
+
+.ndis-contact-row:last-of-type {
+  margin-bottom: 18px;
+}
+
+.ndis-contact-row h3 {
+  margin: 0 0 5px;
+  color: var(--ndis-navy);
+  font-size: 1rem;
+}
+
+.ndis-contact-row p {
+  margin: 0 0 6px;
+  color: var(--ndis-muted);
+  line-height: 1.6;
+}
+
+.ndis-registered-box {
+  display: inline-flex;
+  min-width: 150px;
+  padding: 16px 20px;
+  border-radius: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(35, 178, 177, 0.1), rgba(107, 189, 69, 0.08));
+  border: 1px solid rgba(18, 51, 87, 0.08);
+}
+
+.ndis-registered-box span {
+  color: var(--ndis-muted);
+  font-size: 0.9rem;
+}
+
+.ndis-registered-box strong {
+  color: var(--ndis-navy);
+  font-size: 1.8rem;
+  letter-spacing: 0.04em;
+}
+
+.ndis-mobile-sticky-cta {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .ndis-hero-shell,
+  .ndis-badges-grid,
+  .ndis-services-grid,
+  .ndis-proof-grid,
+  .ndis-testimonials-grid,
+  .ndis-form-grid,
+  .ndis-contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .ndis-hero {
+    padding: 20px 0 14px;
+  }
+
+  .ndis-hero-copy,
+  .ndis-proof-card,
+  .ndis-testimonial-card,
+  .ndis-lead-form,
+  .ndis-contact-grid,
+  .ndis-contact-card {
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .ndis-brand img {
+    width: 58px;
+    height: 58px;
+  }
+
+  .ndis-brand-title {
+    font-size: 1.5rem;
+  }
+
+  .ndis-brand-subtitle {
+    font-size: 1rem;
+  }
+
+  .ndis-cta-row {
+    flex-direction: column;
+  }
+
+  .ndis-btn {
+    width: 100%;
+  }
+
+  .ndis-contact-inline {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ndis-hero-image-ring {
+    max-width: 460px;
+  }
+
+  .ndis-mobile-sticky-cta {
+    position: sticky;
+    bottom: 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(18, 51, 87, 0.1);
+  }
+
+  .ndis-mobile-sticky-cta .ndis-btn {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .ndis-mobile-sticky-cta .ndis-btn-outline {
+    background: #fff;
+  }
+}
+
+.form-status {
+  margin-bottom: 14px;
+}
+
+.error-list {
+  margin: 0 0 12px;
+  padding: 12px 16px 12px 28px;
+  border-radius: 14px;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  color: #9f1239;
+}
+
+.contact-success {
+  margin: 0 0 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.form-pop {
+  animation: formPop 0.2s ease;
+}
+
+.muted {
+  color: var(--ndis-muted);
+}
+
+@keyframes formPop {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

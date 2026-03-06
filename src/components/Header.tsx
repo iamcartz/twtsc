@@ -3,7 +3,7 @@ import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import services from "../data/services.json";
 
 const EMAIL = "info@twt.net.au";
-const PHONE = "+61 433 883 614";
+const PHONE = "(02) 9188 3644";
 
 type Service = {
   id: string;
@@ -199,7 +199,7 @@ export default function Header() {
 
           <div className="topbar-right">
             <div className="topbar-socials" aria-label="Social media links">
-              <a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.facebook.com/profile.php?id=61588169134902" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M22 12a10 10 0 1 0-11.6 9.9v-7h-2.5V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z" />
                 </svg>
@@ -324,7 +324,7 @@ export default function Header() {
                 <h3 className="nav-mega-side-title">Helpful Links</h3>
                 <ul className="nav-mega-side-list">
                   <li><button type="button" onClick={() => go("/about")}>About Us</button></li>
-                  <li><button type="button" onClick={() => go("/referral")}>Referral</button></li>
+                  <li><button type="button" onClick={() => go("/intake")}>Referral</button></li>
                   <li><button type="button" onClick={() => go("/how-we-help")}>How We Help</button></li>
                   <li><button type="button" onClick={() => go("/contact")}>Enquire / Contact</button></li>
                 </ul>
@@ -335,17 +335,39 @@ export default function Header() {
 
           <li>
             <NavLink
-              to="/referral"
+              to="/participant-safeguards"
+              className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+              Participant Safeguards
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/intake"
               className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
               Referral
             </NavLink>
           </li>
+
+          {/* <li>
+            <NavLink
+              to="/service-agreements"
+              className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+              Service Agreements
+            </NavLink>
+          </li> */}
 
           <li>
             <NavLink to="/contact" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
               Contact
             </NavLink>
           </li>
+
+          {/* <li>
+            <NavLink to="/intake" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+              Intake Form
+            </NavLink>
+          </li> */}
         </ul>
       </nav>
 

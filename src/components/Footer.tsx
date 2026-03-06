@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const PHONE = "+61 433 883 614";
+const PHONE = "(02) 9188 3644";
 const EMAIL = "info@twt.net.au";
 
 export default function Footer() {
