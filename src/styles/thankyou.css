@@ -1,0 +1,214 @@
+/* THANK YOU PAGE */
+.thankyou-page {
+  position: relative;
+}
+
+.thankyou-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 4rem 0;
+  background:
+    radial-gradient(circle at top left, rgba(28, 164, 180, 0.12), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(12, 32, 68, 0.12), transparent 30%),
+    linear-gradient(180deg, #f8fbfc 0%, #eef5f7 100%);
+  overflow: hidden;
+}
+
+.thankyou-shell {
+  position: relative;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.thankyou-bg-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.thankyou-bg-orb-a {
+  width: 260px;
+  height: 260px;
+  top: -40px;
+  left: -60px;
+  background: rgba(35, 166, 178, 0.14);
+}
+
+.thankyou-bg-orb-b {
+  width: 320px;
+  height: 320px;
+  right: -80px;
+  bottom: -60px;
+  background: rgba(18, 39, 75, 0.12);
+}
+
+.thankyou-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(13, 53, 84, 0.08);
+  border-radius: 32px;
+  box-shadow: 0 24px 80px rgba(15, 43, 77, 0.12);
+  padding: clamp(2rem, 4vw, 4rem);
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.thankyou-brand {
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.thankyou-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 999px;
+  background: rgba(35, 166, 178, 0.12);
+  color: #0d3f57;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.thankyou-badge-icon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thankyou-badge-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: #23a6b2;
+  stroke: #ffffff;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.thankyou-title {
+  margin: 0.5rem auto 1rem;
+  max-width: 720px;
+  font-size: clamp(2rem, 4vw, 3.7rem);
+  line-height: 1.08;
+  color: #0e2342;
+}
+
+.thankyou-lead {
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  line-height: 1.75;
+  color: #40566e;
+}
+
+.thankyou-highlight {
+  max-width: 760px;
+  margin: 1.5rem auto 0;
+  padding: 1rem 1.25rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(35, 166, 178, 0.1), rgba(14, 35, 66, 0.06));
+  color: #18324b;
+  line-height: 1.7;
+}
+
+.thankyou-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.thankyou-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.thankyou-info-card {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: 22px;
+  background: #ffffff;
+  border: 1px solid rgba(14, 35, 66, 0.08);
+  box-shadow: 0 10px 28px rgba(14, 35, 66, 0.06);
+}
+
+.thankyou-info-card h2 {
+  margin: 0 0 0.3rem;
+  font-size: 1rem;
+  color: #0e2342;
+}
+
+.thankyou-info-card p {
+  margin: 0;
+  color: #52657a;
+  line-height: 1.6;
+  font-size: 0.96rem;
+}
+
+.thankyou-info-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(35, 166, 178, 0.12);
+}
+
+.thankyou-info-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #0f3554;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.thankyou-footer-note {
+  margin-top: 1.75rem;
+  color: #0f3554;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 900px) {
+  .thankyou-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .thankyou-hero {
+    padding: 2rem 0;
+    min-height: auto;
+  }
+
+  .thankyou-card {
+    border-radius: 24px;
+    padding: 1.5rem;
+  }
+
+  .thankyou-actions {
+    flex-direction: column;
+  }
+
+  .thankyou-actions .ndis-btn {
+    width: 100%;
+  }
+}

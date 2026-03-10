@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSeo } from "../hooks/useSeo";
 import "../styles/Contact.css";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { useNavigate } from "react-router-dom";
 
 const EMAIL = "info@twt.net.au";
 const PHONE = "(02) 9188 3644";
@@ -35,6 +36,7 @@ function usePrefersReducedMotion() {
 }
 
 function useContactJsonLdSchema() {
+  
   const schemaGraph = useMemo(() => {
     const origin =
       typeof window !== "undefined" ? window.location.origin : "";
@@ -199,6 +201,7 @@ export default function Contact() {
   // CSRF
   const [csrf, setCsrf] = useState("");
   const [csrfReady, setCsrfReady] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let cancelled = false;
@@ -315,6 +318,8 @@ export default function Contact() {
       setTurnstileResetKey((k) => k + 1);
 
       revealStatus();
+
+      navigate("/thank-you");
     } catch {
       setErrors(["Network error. Please try again."]);
       revealStatus();

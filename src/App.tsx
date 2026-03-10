@@ -17,6 +17,7 @@ import IntakeForm from "./pages/IntakeForm";
 import ParticipantSafeguards from "./pages/ParticipantSafeguards";
 import ServiceAgreements from "./pages/ServiceAgreementForm";
 import NdisSupport from "./pages/NdisSupport";
+import ThankYou from "./pages/ThankYou";
 
 function SiteLayout() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
         {/* Standalone landing page: no header, no footer */}
         <Route element={<LandingPageLayout />}>
           <Route path="/ndis-support" element={<NdisSupport />} />
+          <Route path="/thank-you" element={<ThankYou />} />
         </Route>
 
         {/* Main website pages */}

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import "../styles/intakeform.css";
+import { useNavigate } from "react-router-dom";
 
 // ✅ Put your Cloudflare Turnstile SITE KEY here (public key)
 const TURNSTILE_SITE_KEY = "0x4AAAAAACZ-mU6ox2cWGFfP";
@@ -66,6 +67,8 @@ function Modal({
 export default function IntakeForm() {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     const logoUrl = origin ? `${origin}/logo.jpeg` : "/logo.jpeg";
+
+    const navigate = useNavigate();
 
     const formRef = useRef<HTMLFormElement | null>(null);
     const fileRef = useRef<HTMLInputElement | null>(null);
@@ -179,6 +182,8 @@ export default function IntakeForm() {
             setTurnstileKey((k) => k + 1);
 
             showModal("Submitted", okMsg);
+
+            navigate("/thank-you");
         } catch (err: any) {
             const msg = err?.message || "Network error. Please try again.";
             setStatus({ type: "error", message: msg });

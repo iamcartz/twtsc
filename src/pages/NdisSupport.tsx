@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useSeo } from "../hooks/useSeo";
 import { Turnstile } from "@marsidev/react-turnstile";
 import "../styles/NdisSupport.css";
+import { useNavigate } from "react-router-dom";
 
 const PHONE = "(02) 9188 3644";
 const PHONE_LINK = "0291883644";
@@ -190,7 +191,8 @@ export default function NdisSupport() {
   });
 
   useNdisSupportJsonLdSchema();
-
+  
+  const navigate = useNavigate();
   const [errors, setErrors] = useState<string[]>([]);
   const [status, setStatus] = useState<"" | "success">("");
   const [submitting, setSubmitting] = useState(false);
@@ -308,6 +310,8 @@ export default function NdisSupport() {
       setTurnstileToken("");
       setTurnstileResetKey((k) => k + 1);
       revealStatus();
+
+      navigate("/thank-you");
     } catch {
       setErrors(["Network error. Please try again."]);
       revealStatus();
