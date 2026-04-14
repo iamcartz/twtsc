@@ -18,16 +18,17 @@ export default function Footer() {
             <div>
               <strong>Together We Thrive Support Co</strong>
               <p className="footer-tagline">
-                NDIS support services • Mental Health &amp; Wellbeing Support
+                NDIS support services • Psychosocial Disability Support
               </p>
             </div>
           </div>
 
           <p className="footer-text">
-            Person-centred disability support with a calm focus on{" "}
-            <strong>psychosocial disability support</strong> and{" "}
-            <strong>mental health &amp; wellbeing</strong> — helping people build
-            routine, confidence, and community connection.
+            Person-centred disability support including{" "}
+            <strong>psychosocial disability support</strong>,{" "}
+            <strong>daily living support</strong> and{" "}
+            <strong>community participation</strong> — helping people build
+            routine, independence, and community connection.
           </p>
 
           <div className="footer-contact" aria-label="Footer contact details">
@@ -95,12 +96,12 @@ export default function Footer() {
         <div className="footer-col">
           <h3>Our Services</h3>
           <ul className="footer-links">
-            <li>Mental Health &amp; Wellbeing Support</li>
-            <li>Psychosocial disability support</li>
-            <li>NDIS daily living support</li>
-            <li>NDIS in-home support</li>
-            <li>NDIS personal care support</li>
-            <li>NDIS community participation</li>
+            <li>Psychosocial Disability Support</li>
+            <li>Daily Living Support</li>
+            <li>In-home Support</li>
+            <li>Personal Care Support</li>
+            <li>Community Participation</li>
+            <li>Capacity Building Services</li>
           </ul>
 
           <p className="footer-small" style={{ marginTop: ".75rem" }}>

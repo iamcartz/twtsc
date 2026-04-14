@@ -50,6 +50,7 @@ $TURNSTILE_SECRET = "0x4AAAAAACZ-mfDplW990B-H8SN2K6OYLzw";
 $name = clean_text((string)($data["name"] ?? ""));
 $email = clean_text((string)($data["email"] ?? ""));
 $service = clean_text((string)($data["service"] ?? "Not sure"));
+$contactNo = clean_text((string)($data["contactNo"] ?? ""));
 $message = clean_text((string)($data["message"] ?? ""));
 $source = clean_text((string)($data["source"] ?? "Website Contact Form"));
 
@@ -73,6 +74,10 @@ if ($name === "") {
 
 if ($email === "" || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
   $errors[] = "Valid email is required.";
+}
+
+if ($contactNo === "") {
+  $errors[] = "Phone number is required.";
 }
 
 if ($message === "") {
@@ -154,6 +159,7 @@ try {
     "New enquiry received\n\n" .
     "Source: {$source}\n" .
     "Name: {$name}\n" .
+    "Phone Number: {$contactNo}\n" .
     "Email: {$email}\n" .
     "Preferred service: {$service}\n" .
     "Submitted: {$submittedAt}\n" .
@@ -176,6 +182,10 @@ try {
         <tr>
           <td style="font-weight:700;border-bottom:1px solid #e5edf2;">Email</td>
           <td style="border-bottom:1px solid #e5edf2;">' . esc_html($email) . '</td>
+        </tr>
+         <tr>
+          <td style="font-weight:700;border-bottom:1px solid #e5edf2;">Phone Number</td>
+          <td style="border-bottom:1px solid #e5edf2;">' . esc_html($contactNo) . '</td>
         </tr>
         <tr>
           <td style="font-weight:700;border-bottom:1px solid #e5edf2;">Preferred service</td>

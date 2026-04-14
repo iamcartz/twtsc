@@ -399,7 +399,7 @@ export default function IntakeForm() {
                     </label>
 
                     <label className="field">
-                        <span className="label">Clinical Diagnosis (Mental Health):</span>
+                        <span className="label">Disability Diagnosis / Support Needs:</span>
                         <input className="input" name="clinicalDiagnosis" type="text" />
                     </label>
                 </section>
@@ -668,6 +668,7 @@ export default function IntakeForm() {
                                 type="file"
                                 name="uploads"
                                 multiple
+                                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp"
                             />
                             <span className="hint">You can select multiple files.</span>
                         </label>

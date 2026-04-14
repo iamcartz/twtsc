@@ -272,6 +272,7 @@ export default function Contact() {
     const payload = {
       name: String(data.get("name") || "").trim(),
       email: String(data.get("email") || "").trim(),
+      contactNo: String(data.get("contactNo") || "").trim(),
       service: String(data.get("service") || "Not sure"),
       message: String(data.get("message") || "").trim(),
       source: "Website Contact Form",
@@ -284,6 +285,7 @@ export default function Contact() {
     const vErrors: string[] = [];
     if (!payload.name) vErrors.push("Please enter your name.");
     if (!payload.email) vErrors.push("Please enter your email.");
+    if (!payload.contactNo) vErrors.push("Please enter your phone number.");
     if (!payload.message) vErrors.push("Please enter a message.");
     if (vErrors.length) {
       setErrors(vErrors);
@@ -468,6 +470,11 @@ export default function Contact() {
             <label>
               Email
               <input name="email" type="email" autoComplete="email" required />
+            </label>
+
+            <label>
+              Phone Number
+              <input name="contactNo" type="tel" autoComplete="tel" required />
             </label>
 
             <label>

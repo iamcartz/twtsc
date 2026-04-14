@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const PHONE = "(02) 9188 3644";
 const PHONE_LINK = "0291883644";
 const EMAIL = "info@twt.net.au";
+const CONVERSION_ID = "AW-18002433997/p55uCo7LjoUcEM2vnYhD";
 
 function useNdisSupportJsonLdSchema() {
   const schemaGraph = useMemo(() => {
@@ -36,7 +37,7 @@ function useNdisSupportJsonLdSchema() {
           logo: logoUrl,
           image: heroUrl,
           description:
-            "Together We Thrive Support Co provides psychosocial disability support and mental health and wellbeing support as part of our NDIS support services in South Western Sydney, alongside daily living support, community access, personal care and support planning.",
+            "Together We Thrive Support Co provides NDIS support services including psychosocial disability support, daily living support, personal care, community participation and support planning in South Western Sydney.",
           areaServed: {
             "@type": "AdministrativeArea",
             name: "South Western Sydney, New South Wales, Australia",
@@ -64,7 +65,7 @@ function useNdisSupportJsonLdSchema() {
           "@type": "WebPage",
           "@id": webpageId,
           url: pageUrl,
-          name: "Psychosocial Disability & Mental Health Support | Together We Thrive Support Co",
+          name: "Psychosocial Disability Support & NDIS Services | Together We Thrive Support Co",
           isPartOf: { "@id": websiteId },
           about: { "@id": orgId },
           inLanguage: "en-AU",
@@ -142,8 +143,8 @@ function IconPersonalCare() {
 
 const supportItems = [
   {
-    title: "Psychosocial Disability & Mental Health Support",
-    text: "Calm, practical Mental Health and Wellbeing Support for participants living with psychosocial disability and mental health support needs.",
+    title: "Psychosocial Disability & NDIS Support Services",
+    text: "Practical NDIS support for participants living with psychosocial disability, with focus on independence, routines and community participation.",
     Icon: IconMentalHealth,
     featured: true,
   },
@@ -185,13 +186,13 @@ const testimonials = [
 export default function NdisSupport() {
   useSeo({
     title:
-      "Psychosocial Disability & Mental Health Support | Together We Thrive Support Co",
+      "Psychosocial Disability Support & NDIS Services | Together We Thrive Support Co",
     description:
-      "Looking for psychosocial disability and mental health support in South Western Sydney? Together We Thrive Support Co provides calm, practical Mental Health and Wellbeing Support, daily living support, community access and personal care.",
+      "Looking for psychosocial disability support in South Western Sydney? Together We Thrive Support Co provides NDIS support services including daily living support, personal care, community participation and support planning.",
   });
 
   useNdisSupportJsonLdSchema();
-  
+
   const navigate = useNavigate();
   const [errors, setErrors] = useState<string[]>([]);
   const [status, setStatus] = useState<"" | "success">("");
@@ -261,13 +262,14 @@ export default function NdisSupport() {
 
     const selectedService =
       String(data.get("service") || "").trim() ||
-      "Psychosocial Disability & Mental Health Support";
+      "Psychosocial Disability & NDIS Support";
 
     const message = String(data.get("message") || "").trim();
 
     const payload = {
       name: String(data.get("name") || "").trim(),
       email: String(data.get("email") || "").trim(),
+      contactNo: String(data.get("contactNo") || "").trim(),
       service: selectedService,
       message,
       source: "NDIS Support Landing Page",
@@ -279,6 +281,7 @@ export default function NdisSupport() {
     const vErrors: string[] = [];
     if (!payload.name) vErrors.push("Please enter your name.");
     if (!payload.email) vErrors.push("Please enter your email.");
+    if (!payload.contactNo) vErrors.push("Please enter your phone number.");
     if (!message) vErrors.push("Please enter a message.");
     if (vErrors.length) {
       setErrors(vErrors);
@@ -338,15 +341,14 @@ export default function NdisSupport() {
             <p className="ndis-eyebrow">NDIS Support Services</p>
 
             <h1>
-              Psychosocial Disability &
-              <span> Mental Health Support</span>
+              Psychosocial Disability
+              <span> Support & NDIS Services</span>
             </h1>
 
             <p className="ndis-lead">
-              We support people living with psychosocial disability and mental
-              health support needs with calm, practical
-              <strong> Mental Health and Wellbeing Support</strong> that helps
-              build routine, confidence and meaningful connection at your pace.
+              We support people living with psychosocial disability with practical
+              <strong> NDIS-aligned support</strong> that helps
+              build routine, independence and meaningful community connection at your pace.
             </p>
 
             <p className="ndis-service-area">
@@ -356,12 +358,24 @@ export default function NdisSupport() {
 
             <div className="ndis-pill-row">
               <span className="ndis-pill">Psychosocial Support</span>
-              <span className="ndis-pill">Mental Health & Wellbeing</span>
+              <span className="ndis-pill">Psychosocial Disability Support</span>
               <span className="ndis-pill">South Western Sydney</span>
             </div>
 
             <div className="ndis-cta-row">
-              <a href={`tel:${PHONE_LINK}`} className="ndis-btn ndis-btn-primary">
+              <a
+                href={`tel:${PHONE_LINK}`}
+                className="ndis-btn ndis-btn-primary"
+                onClick={() => {
+                  if (typeof window.gtag === "function") {
+                    window.gtag("event", "conversion", {
+                      send_to: CONVERSION_ID,
+                      value: 1.0,
+                      currency: "AUD",
+                    });
+                  }
+                }}
+              >
                 Call {PHONE}
               </a>
               <a href="#ndis-enquiry" className="ndis-btn ndis-btn-outline">
@@ -432,12 +446,23 @@ export default function NdisSupport() {
           <div className="ndis-proof-card ndis-proof-card-accent">
             <h2>Who we support</h2>
             <p>
-              We support people living with psychosocial disability and mental
-              health support needs, as well as participants needing daily
-              assistance, community access and respectful ongoing care.
+              We support people living with psychosocial disability and those
+              needing daily assistance, community access and respectful ongoing care.
             </p>
             <div className="ndis-proof-actions">
-              <a href={`tel:${PHONE_LINK}`} className="ndis-btn ndis-btn-primary">
+              <a
+                href={`tel:${PHONE_LINK}`}
+                className="ndis-btn ndis-btn-primary"
+                onClick={() => {
+                  if (typeof window.gtag === "function") {
+                    window.gtag("event", "conversion", {
+                      send_to: CONVERSION_ID,
+                      value: 1.0,
+                      currency: "AUD",
+                    });
+                  }
+                }}
+              >
                 Speak With Our Team
               </a>
             </div>
@@ -477,7 +502,7 @@ export default function NdisSupport() {
             <p>
               Tell us a little about the support you need and our team will
               contact you to discuss how we can help with psychosocial
-              disability support, mental health and wellbeing support, and other
+              disability support, psychosocial support, and other
               daily supports.
             </p>
 
@@ -531,14 +556,25 @@ export default function NdisSupport() {
               </div>
 
               <div className="ndis-form-field">
+                <label htmlFor="contactNo">Phone Number</label>
+                <input
+                  id="contactNo"
+                  type="tel"
+                  name="contactNo"
+                  autoComplete="tel"
+                  required
+                />
+              </div>
+
+              <div className="ndis-form-field">
                 <label htmlFor="service">Main support needed</label>
                 <select
                   id="service"
                   name="service"
-                  defaultValue="Psychosocial Disability & Mental Health Support"
+                  defaultValue="Psychosocial Disability Support"
                 >
-                  <option value="Psychosocial Disability & Mental Health Support">
-                    Psychosocial Disability & Mental Health Support
+                  <option value="Psychosocial Disability Support">
+                    Psychosocial Disability Support
                   </option>
                   <option value="Daily Living Support">Daily Living Support</option>
                   <option value="Community Access">Community Access</option>
@@ -590,7 +626,19 @@ export default function NdisSupport() {
             </p>
 
             <div className="ndis-cta-row">
-              <a href={`tel:${PHONE_LINK}`} className="ndis-btn ndis-btn-primary">
+              <a
+                href={`tel:${PHONE_LINK}`}
+                className="ndis-btn ndis-btn-primary"
+                onClick={() => {
+                  if (typeof window.gtag === "function") {
+                    window.gtag("event", "conversion", {
+                      send_to: CONVERSION_ID,
+                      value: 1.0,
+                      currency: "AUD",
+                    });
+                  }
+                }}
+              >
                 Call {PHONE}
               </a>
               <a href="#ndis-enquiry" className="ndis-btn ndis-btn-outline-light">
@@ -631,7 +679,19 @@ export default function NdisSupport() {
       </section>
 
       <div className="ndis-mobile-sticky-cta">
-        <a href={`tel:${PHONE_LINK}`} className="ndis-btn ndis-btn-primary">
+        <a
+          href={`tel:${PHONE_LINK}`}
+          className="ndis-btn ndis-btn-primary"
+          onClick={() => {
+            if (typeof window.gtag === "function") {
+              window.gtag("event", "conversion", {
+                send_to: CONVERSION_ID,
+                value: 1.0,
+                currency: "AUD",
+              });
+            }
+          }}
+        >
           Call Now
         </a>
         <a href="#ndis-enquiry" className="ndis-btn ndis-btn-outline">

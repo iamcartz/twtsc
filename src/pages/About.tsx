@@ -103,7 +103,7 @@ function useJsonLdSchema() {
             name: "New South Wales, Australia",
           },
           description:
-            "NDIS disability support provider based in South Western Sydney, offering in-home supports, personal care, community participation and psychosocial disability supports.",
+            "NDIS disability support provider based in South Western Sydney, offering psychosocial disability support, daily living support, community participation and personal care services aligned with NDIS guidelines.",
           address: [
             {
               "@type": "PostalAddress",
@@ -123,14 +123,13 @@ function useJsonLdSchema() {
           knowsAbout: [
             "NDIS Supports",
             "Psychosocial Disability",
-            "Mental Health Support",
             "In-home Support",
             "Personal Care",
             "Community Participation",
             "Participant Rights",
             "Participant Safeguards",
             "NDIS Compliance",
-            "Emotional Wellbeing",
+            "Disability Support",
             "Behavioural Understanding",
             "Trauma-informed Support",
           ],
@@ -139,7 +138,7 @@ function useJsonLdSchema() {
             "Community Participation & Social Support",
             "Capacity Building & Life Skills Development",
             "Support Coordination",
-            "Mental Health & Wellbeing Support",
+            "Psychosocial Disability Support",
           ],
         },
         {
@@ -356,7 +355,7 @@ export default function About() {
             <li>Capacity Building &amp; Life Skills Development</li>
             <li>Support Coordination &amp; Individualised Plans</li>
             <li>
-              <strong>Mental Health &amp; Wellbeing Support</strong>
+              <strong>Psychosocial Disability Support</strong>
             </li>
           </ul>
           <p className="muted">
@@ -370,13 +369,13 @@ export default function About() {
             <li>NDIS participants of all ages</li>
             <li>Individuals living with physical or intellectual disabilities</li>
             <li>
-              People living with <strong>psychosocial disability</strong>, mental health support needs
+              People living with <strong>psychosocial disability</strong>
             </li>
             <li>
               People involved with the <strong>justice system</strong> who are eligible for NDIS supports and seeking stability, routine and community connection
             </li>
             <li>
-              People experiencing <strong>mental health challenges</strong>, including those with treatment or care arrangements, who may benefit from practical, recovery focused NDIS supports
+              People who may benefit from practical, recovery-focused NDIS supports
             </li>
             <li>
               People seeking greater independence, social connection and improved quality of life
@@ -435,18 +434,18 @@ export default function About() {
         </ul>
       </section>
 
-      {/* 🧠 MENTAL HEALTH & WELLBEING */}
+      {/* 🧠 PSYCHOSOCIAL DISABILITY SUPPORT */}
       <section className="card" style={{ marginTop: "1rem" }} data-reveal>
-        <h2>🧠 Mental Health &amp; Wellbeing Support</h2>
+        <h2>🧠 Psychosocial Disability Support</h2>
         <p className="muted">
-          We support participants with psychosocial disability in a calm,
-          practical way, focusing on daily routines, community connection and
-          building confidence at your pace.
+          We support participants living with psychosocial disabilities in a practical,
+          NDIS-aligned way, focusing on daily routines, skill building, community
+          connection and building independence at your pace.
         </p>
         <ul className="list">
           <li>Support with daily routines and planning</li>
           <li>Encouragement to attend appointments and community activities</li>
-          <li>Skill building to improve confidence and independence</li>
+          <li>Skill building to improve independence and confidence</li>
           <li>Respectful support for families and carers</li>
         </ul>
       </section>

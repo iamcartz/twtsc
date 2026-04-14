@@ -146,21 +146,21 @@ export default function Services() {
       .toLowerCase();
 
     return (
-      hay.includes("mental health") ||
       hay.includes("psychosocial") ||
-      hay.includes("wellbeing") ||
-      hay.includes("well-being") ||
-      hay.includes("anxiety") ||
-      hay.includes("depression") ||
+      hay.includes("disability") ||
+      hay.includes("daily living") ||
+      hay.includes("community") ||
+      hay.includes("transport") ||
+      hay.includes("capacity") ||
       hay.includes("trauma") ||
-      hay.includes("coping")
+      hay.includes("support")
     );
   };
 
   const pageTitle =
     "NDIS Support Services | Together We Thrive Support Co (South Western Sydney)";
   const pageDesc =
-    "Explore our NDIS support services and disability support services in South Western Sydney, including in home support, personal care, daily living, community participation, and psychosocial disability support for mental health and wellbeing.";
+    "Explore our NDIS support services in South Western Sydney, including daily living support, in-home support, personal care, community participation, capacity building and psychosocial disability support.";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -219,8 +219,8 @@ export default function Services() {
 
           <p className="muted" style={{ marginTop: ".5rem" }}>
             We also support participants with{" "}
-            <strong>psychosocial disability</strong> through calm, practical{" "}
-            <strong>mental health and wellbeing</strong> supports.
+            <strong>psychosocial disability</strong> through practical, NDIS-aligned{" "}
+            <strong>disability support services</strong>.
           </p>
 
           <p className="muted" style={{ marginTop: ".5rem" }}>

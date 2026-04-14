@@ -10,13 +10,12 @@ const Turnstile_SITE_KEY = "0x4AAAAAACZ-mU6ox2cWGFfP"; // ✅ Cloudflare Turnsti
 
 const REFERRAL_TYPES = [
   "Not sure",
-  "Psychosocial Disability & Mental Wellbeing",
+  "Psychosocial Disability Support",
   "Personal Care & Daily Living",
   "In-Home Support",
   "Social & Community Participation",
   "Transport Support",
   "Capacity Building & Life Skills",
-  "Psychosocial Disability / Mental Wellbeing",
   "Support Coordination (when available)",
   "Day Programs (coming soon)",
 ];

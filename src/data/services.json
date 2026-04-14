@@ -1,27 +1,27 @@
 [
    {
     "id": "psychosocial",
-    "title": "Psychosocial Disability & Mental Wellbeing",
+    "title": "Psychosocial Disability Support",
     "category": "Capacity Building",
-    "summary": "Calm, practical support for mental health and psychosocial disability — with clear steps and support at your pace.",
+    "summary": "Practical NDIS support for people with psychosocial disabilities—helping build routines, confidence and meaningful participation at your pace.",
     "bullets": [
       "Support with daily routines and planning",
       "Confidence building for community access",
       "Step-by-step support to reach personal goals",
       "Support attending appointments (when needed)",
-      "Support with coping strategies and wellbeing routines",
+      "Support with structured routines and wellbeing practices",
       "Support for families and carers (with consent)"
     ],
     "icon": "people",
     "image": "/images/services/psychosocial.png",
     "faqs": [
       {
-        "q": "Can you support people with anxiety or depression?",
-        "a": "Yes. We provide calm, respectful support and work at your pace. We can start small and build confidence over time."
+        "q": "What is psychosocial disability?",
+        "a": "Psychosocial disability is when a person's disability relates to their social, emotional or mental functioning. We provide practical NDIS supports that help with routines, confidence, and daily life."
       },
       {
-        "q": "Do you provide counselling or therapy?",
-        "a": "We are not a clinical therapy service. We provide practical NDIS supports that help with routines, confidence, and daily life."
+        "q": "Do you provide clinical therapy or counselling?",
+        "a": "We are not a clinical therapy service. We provide practical NDIS supports that help with routines, confidence, and community participation."
       }
     ]
   },
@@ -96,8 +96,8 @@
         "a": "Yes. We plan activities around your interests and goals, and we keep communication clear and simple."
       },
       {
-        "q": "Do you support people with anxiety in the community?",
-        "a": "Yes. We go at your pace and can start with shorter outings, gradually building confidence."
+        "q": "Can I choose activities that match my interests?",
+        "a": "Yes. Community participation is tailored to your goals and interests, delivered at your pace with clear communication and support."
       }
     ]
   },

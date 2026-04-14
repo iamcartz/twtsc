@@ -472,7 +472,7 @@ $styles = '
   .foot{padding:14px 18px;border-top:1px solid #e5e7eb;font-size:12px;color:#6b7280;}
 ';
 
-$html = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' .
+$html = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />' .
   "<style>$styles</style></head><body><div class=\"wrap\"><div class=\"card\">" .
   '<div class="head">' .
   '<div class="kicker">Together We Thrive Support Co</div>' .

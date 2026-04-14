@@ -67,7 +67,7 @@ function useHomeJsonLdSchema() {
             name: "New South Wales, Australia",
           },
           description:
-            "Person-centred disability support services and NDIS support services in South Western Sydney, with a focus on psychosocial disability support and mental health and wellbeing support.",
+            "Person-centred disability support services and NDIS support services in South Western Sydney, with a focus on psychosocial disability support and community participation.",
           contactPoint: [
             {
               "@type": "ContactPoint",
@@ -131,9 +131,9 @@ function useHomeJsonLdSchema() {
 export default function Home() {
   useSeo({
     title:
-      "Together We Thrive Support Co | Psychosocial Disability & Mental Health Support (NDIS)",
+      "Together We Thrive Support Co | NDIS Disability Support & Psychosocial Services",
     description:
-      "Together We Thrive Support Co provides psychosocial disability support and mental health and wellbeing support as part of our NDIS support services in South Western Sydney, helping participants build routine, confidence and community connection.",
+      "Together We Thrive Support Co provides NDIS support services including psychosocial disability support, daily living support, personal care and community participation in South Western Sydney.",
   });
 
   // ✅ JSON-LD injection (safe runtime origin)
@@ -159,14 +159,12 @@ export default function Home() {
             </div>
           </div>
 
-          <h1>Psychosocial disability support and mental health wellbeing</h1>
+          <h1>NDIS Disability Support & Psychosocial Services</h1>
 
           <p className="lead">
             We support people living with <strong>psychosocial disability</strong>{" "}
-            and mental health support needs with calm, practical{" "}
-            <strong>Mental Health and Wellbeing Support</strong>. Our focus is
-            helping you build routine, confidence and meaningful connection at
-            your pace.
+            with practical <strong>NDIS-aligned support</strong> that helps you build
+            routine, independence and meaningful connection at your pace.
           </p>
 
           <p className="muted" style={{ marginTop: ".5rem" }}>
@@ -197,11 +195,10 @@ export default function Home() {
             <strong>NSW</strong> as we grow
           </p>
 
-          {/* Key supports (mental health first) */}
           <div className="pill-row" aria-label="Key supports offered">
-            <span className="pill">Mental Health and Wellbeing Support</span>
-            <span className="pill">Psychosocial disability support</span>
-            <span className="pill">Community participation</span>
+            <span className="pill">Psychosocial Disability Support</span>
+            <span className="pill">Daily Living Support</span>
+            <span className="pill">Community Participation</span>
           </div>
         </div>
 
@@ -248,15 +245,14 @@ export default function Home() {
 
       {/* PRIMARY CARDS */}
       <header className="page-header" style={{ marginTop: "1.5rem" }}>
-        <h2>Mental Health and Wellbeing Support</h2>
+        <h2>Practical NDIS Support Services</h2>
         <p className="muted">
-          Support that is practical, calm and focused on everyday progress.
+          Support that is tailored to your goals and designed around NDIS funding.
         </p>
         <p className="muted" style={{ marginTop: ".25rem" }}>
-          Our approach is shaped by understanding emotional wellbeing,
-          communication styles and the impact of past experiences. This helps us
-          respond calmly, build trust and support people in ways that feel safe,
-          respectful and empowering.
+          Our approach is shaped by understanding disability, communication preferences
+          and participant rights. This helps us respond thoughtfully, build trust and
+          support people in ways that feel safe, respectful and empowering.
         </p>
       </header>
 
@@ -351,12 +347,11 @@ export default function Home() {
           <h2>Who we support</h2>
           <ul className="list">
             <li>
-              People living with <strong>psychosocial disability</strong> and
-              mental health support needs
+              NDIS participants living with <strong>psychosocial disability</strong>
             </li>
-            <li>NDIS participants seeking routine, confidence and stability</li>
+            <li>People seeking routine, independence and stability</li>
             <li>Families, carers and support coordinators</li>
-            <li>People wanting stronger community connection and independence</li>
+            <li>People wanting stronger community connection</li>
           </ul>
           <p className="muted" style={{ marginTop: ".5rem" }}>
             Supports are provided in line with NDIS guidelines and within the

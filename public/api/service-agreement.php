@@ -308,7 +308,7 @@ $rows = [
   ],
 ];
 
-$html = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'.
+$html = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />'.
   "<style>$styles</style></head><body><div class=\"wrap\"><div class=\"card\">".
   '<div class="head">'.
   '<img class="logo" src="'.h($logo).'" alt="Together We Thrive Support Co" />'.

@@ -36,7 +36,7 @@ export const serviceIcons: Record<string, ReactNode> = {
     "M12 2a8 8 0 0 0-4.7 14.5c.4.3.7.8.7 1.3V19a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-1.2c0-.5.3-1 .7-1.3A8 8 0 0 0 12 2zm2 17h-4v-1.3c0-.9-.4-1.8-1.2-2.4A6 6 0 1 1 15.2 15.3c-.8.6-1.2 1.5-1.2 2.4V19z"
   ),
 
-  // ✅ NEW: Mental Health / Psychosocial
+  // ✅ NEW: Psychosocial Disability Support
   mental: wrap(
     "M9 2a3 3 0 0 0-3 3v2a3 3 0 0 0 0 6v2a3 3 0 0 0 6 0v-1h1a3 3 0 0 0 0-6h-1V5a3 3 0 0 0-3-3zm6 4a3 3 0 0 1 3 3v2a3 3 0 0 1 0 6v2a3 3 0 0 1-6 0v-1h-1a3 3 0 0 1 0-6h1V9a3 3 0 0 1 3-3z"
   )
